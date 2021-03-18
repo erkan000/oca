@@ -1,4 +1,4 @@
-package chap2.cast;
+package chap6.cast;
 
 public class Casting3 {
 
@@ -7,10 +7,10 @@ public class Casting3 {
 		BB b = new BB();
 		II i1 = new AA();
 		II i2 = new BB();
-		
+
 		System.out.println(i2.toString());		//A yazar
 		System.out.println(i2.toString());		//B yazar
-		
+
 		a = b;
 		b = (BB)a;
 		i1 = a;
@@ -26,9 +26,9 @@ interface II {
 }
 
 class AA implements II{
-    public String toString(){ return "in a"; }
+	public String toString(){ return "in a"; }
 }
 
 class BB extends AA{
-    public String toString(){ return "in b"; }
+	public String toString(){ return "in b"; }
 }
