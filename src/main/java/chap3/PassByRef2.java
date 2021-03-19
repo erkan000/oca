@@ -1,10 +1,7 @@
 package chap3;
 
-public class PassByRef {
+public class PassByRef2 {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		
 		//Object referans metodda yeniden atanırsa orjinal nesne etkilenmez!
@@ -20,4 +17,11 @@ public class PassByRef {
 		p.name = "as";
 	}
 
+}
+
+class Person {
+	
+	public String name;
+	public int height;	
+	
 }
