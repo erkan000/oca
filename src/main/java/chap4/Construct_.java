@@ -1,8 +1,12 @@
 package chap4;
 
 public class Construct_ {
-	public static void main(String args[]){ start(new OrderManager()); }
-	static void start(CorbaComponent cc){ cc.print(); }
+	public static void main(String args[]){
+		start(new OrderManager());
+	}
+	static void start(CorbaComponent cc){
+		cc.print();
+	}
 }
 
 class CorbaComponent{
@@ -27,3 +31,15 @@ class OrderManager extends CorbaComponent{
 		return "URL://"+s;
 	}
 }
+
+/**
+
+Observer that method startUp(String s) of CorbaComponent is overridden by the subclass OrderManager.
+
+When an object of class OrderManager is constructed, the default no args constructor of CorbaComponent is called. This constructor calls the startUp(String s) with "IOR" as parameter. Now, there are two eligible methods which can be called - CorbaComponent's startUp and OrderManager's startUp.
+
+The method selection is done on the basis of the actual class of the object (which is OrderManager here). So OrderManager's startUp is called, which sets the ior variable to URL://IOR.
+
+Unlike instance method selection, variable (and static method) selection is done on the basis of declared class of the variable and not on the actual class of object that it is referring to. 
+
+*/
