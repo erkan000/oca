@@ -1,6 +1,6 @@
 package chap5;
 
-public class ForWhileSwitch {
+public class ForWhile {
 
 	/**
 	 * @param args
@@ -26,20 +26,6 @@ public class ForWhileSwitch {
 			System.out.println(a = 123);
 		}
 		
-		byte by = 120;
-		
-		switch (by) {
-		
-		default:
-			System.out.println("def");
-			break;
-		case 12:
-			System.out.println("case 1");
-			break;	
-		case 120:
-			System.out.println("case 120");
-			break;
-		}
 		
 		for (int ctr = 1; ctr <= 5; ++ctr) {
 			System.out.println(ctr); 
