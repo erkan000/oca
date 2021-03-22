@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 public class PredicateSample {
 
 	public static void main(String[] args) {
+//		Diamond giriş sınıfını gösteriyor
 		Predicate<String> pr = s -> s.startsWith("er");
 		System.out.println(returnNumber(pr, "erkan"));
 	}

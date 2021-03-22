@@ -19,7 +19,23 @@ public class LambdaBodyParamethers {
 //		volume lambda dan sonra bile atansa kod derlenemz
 //		volume = "test";
 			
-		consumer.toString();
+			
+			
+		consumer = s -> {
+//			Derlenmez, s iki tane oldu
+//			String s = "";
+		};
+		
+//		Derlenmez ismi ile aynı olamaz ama cc dışarda tanımlanabilir!
+//		Consumer cc = cc -> {
+//		};
+		
+//		Burada tanımlanamaz ama aşağıda tanımlanabilir!
+//		int aa;		
+		consumer = s -> {
+			int aa;
+		};
+		int aa;
 	
 	}
 }
