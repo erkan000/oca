@@ -364,10 +364,52 @@ media/primitive_stream_methods2.png)
 Primitive stream oluşturma, java8.stream.PrimitiveStreams.java
 
 # Create with mapping
+Stream lerin map metodları streamleri birbirine çevirmeye yarar. Mesela bir string stream'i int stream'e her elemanı stringin uzunluğu olan stream'e çevirebilirsin. Tablodaki gibi metodlar ve çevrimler mevcuttur.
 media/primitive_stream_mapping.png)
 
 media/primitive_stream_mapping_params.png)
 
+flatMap metodu Stream sınıfındaki gibi primitive stream lerde de vardır fakat ismi farklıdır. flatMapToInt, flatMapToDouble, flatMapToLong
 
+Primitive stream ler stream e dönüştürülebilir. Yukardaki tabloda gördüğümüz gibi mapToObj metoduyla veya boxed metoduyla. Farkı boxed da mapping fonksiyonuna ihtiyacımız yoktur, autobox yapar.
+
+# Using Optional with Primitive streams
+Primitive streamler için Optional sınıfının primitive leri bulunur. Normal Optional ile farkı ise normalde Wrapper sınıfları kullanılır, OptionalDouble gibi optionallarda ise primitive tipler kullanılır. 
+
+media/primitive_optionals.png)
+
+Primitive stream lerde, stream içindeki sayıların bazı istatistiki verilerini hazır sağlayan metod bulunur. 
+   IntSummaryStatistics stats = primitiveStream.summaryStatistics();
+- Smallest number (minimum): getMin()
+- Largest number (maximum): getMax()
+- Average: getAverage()
+- Sum: getSum()
+- Number of values: getCount()
+
+istatistik metodu stream boş ise count ve sum için 0 döndürür, diğer metodlar için Optional döndürür. 
+
+# Learning Functional interfaces for primitives
+Konu başında Supplier, Consumer, Predicate görmüştük. Şimdi ise bunların primitive karşılıklarını göreceğiz. Önce şu özel functional interface görelim. BooleanSupplier;
+   boolean getAsBoolean()
+Diğer primitive function interfaces şunlardır;
+
+media/primitive_functional_interfaces.png)
+
+- Generics are gone from some of the interfaces, and instead the type name tells us what primitive type is involved. In other cases, such as IntFunction, only the return type generic is needed because we're converting a primitive int into an object.
+- The single abstract method is often renamed when a primitive type is returned.
+
+media/primitive_specific_functional_interfaces.png)
+
+# Chaining Optionals
+Optional ın da stream gibi map, flatMap, filter, ifPresent metodları bulunmaktadır. 
+
+79. sayfa kodunu yazarak anlayabilirsin ancak.
+Ayrıca checked exceptions kutusu
+
+# Collecting Results
+Sonuçları gruplamak için aşağıdaki tablodaki metodlar hazır tanımlanmıştır. Collectors interface'inin static metodlarıdır. 
+
+media/collectors1.png)
+media/collectors2.png)
 
 
