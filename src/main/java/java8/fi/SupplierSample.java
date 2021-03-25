@@ -1,4 +1,4 @@
-package java8.lambda;
+package java8.fi;
 
 import java.util.function.Supplier;
 

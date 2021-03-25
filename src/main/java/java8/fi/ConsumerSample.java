@@ -1,8 +1,8 @@
-package java8.lambda;
+package java8.fi;
 
 import java.util.function.Consumer;
 
-public class CosumerSample {
+public class ConsumerSample {
 
 	public static void main(String[] args) {
 //		Diamond giriş sınıfını gösteriyor
