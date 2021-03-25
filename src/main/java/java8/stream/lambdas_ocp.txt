@@ -1,7 +1,7 @@
 ## Lambda Expressions
 Functional programming is a way of writing code more declaratively. You specify what you want to do rather than dealing with the state of objects. Functional programming uses lambda expressions to write code. You can think of a lambda expression as an unnamed method. Lambda expressions are often referred to as lambdas for short. A lambda expression is like a method that you can pass as if it were a variable. 
 
-Think of a lambda expression as a shortcut for the compiler that does two things - defines a class with a method and instantiates that class. java8.lambda.LambdaInternals.java incele. Lambda CarFilter sınıfını otomatik oluşturdu ve instantiate etti. Sınıfı oluştururken rastgele bir isim verdi ve metod type larını context'e bakarak elde etti. Interface'in imzasına baktı ve istenen sınıf parametresini aldı. Burada interface'in tek bir abstract  metod içermesini istemiştik her zaman. Bunun sebebi lambda nın lambda gövdesini hangi metoda yazacağını bilememesidir. Bu sebepten interface de sadece bir tane abstract metod olmalıdır. Burada dikkat edilecek husus lambda parametrleri, interface ile uyumlu olmalıdır. Compiler sadece implementasyonu yazamaz onu da lambda body de biz belirtiyoruz.
+Think of a lambda expression as a shortcut for the compiler that does two things - defines a class with a method and instantiates that class. java8.lambda.LambdaInternals.java incele. Lambda CarFilter sınıfını otomatik oluşturdu ve instantiate etti. Sınıfı oluştururken rastgele bir isim verdi ve metod type larını context'e bakarak elde etti. Interface'in imzasına baktı ve istenen sınıf parametresini aldı. Burada interface'in tek bir abstract  metod içermesini istemiştik her zaman. Bunun sebebi lambda nın lambda gövdesini hangi metoda yazacağını bilememesidir. Bu sebepten interface de sadece bir tane abstract metod olmalıdır. Burada dikkat edilecek husus lambda parametreleri, interface ile uyumlu olmalıdır. Compiler sadece implementasyonu yazamaz onu da lambda body de biz belirtiyoruz.
 
 Diğer bir anlatımla, Anonymous classları yazmamızı ve okumamızı kolaylaştıran syntax dır. Yani bir interface'in concreate implementasyonunu içerir.  Yazmak için sadece Anonymous class'ın giriş parametresini al (->) işareti sonrasında Anonymous class'ın body'sini yapıştır. 
 
@@ -103,7 +103,7 @@ Sıralar. Sadece list için tanımlı, set ve map zaten sıralıdır.
    collection.sort((b1, b2) -> b1.compareTo(b2));
    
 # Foreach
-forEach() takes a Consumer and calls that lambda for each element encountered. List, set için tanımlıdır. Map'in values ve ketSet metodları için tanımlıdır.
+forEach() takes a Consumer and calls that lambda for each element encountered. List, set için tanımlıdır. Map'in values ve keySet metodları için tanımlıdır.
    collection.forEach(b -> System.out.println(b));
    
    
@@ -138,7 +138,7 @@ media/metod_referances.png)
 
   
 ## Functional programming with streams
-Bu tabloda metod imzalarını ezberlemelisin, metod isimleri yardımcı olabilir.
+Bu tablodaki function interfaces metod imzalarını KESİNLİKLE ezberlemelisin, metod isimleri ezberlemede yardımcı olabilir.
 media/functional_interfaces.png
 
 #Supplier
@@ -218,7 +218,7 @@ LE ayrıca Collection sınıflarında veri işlemek için de kullanılır. Itera
 Express "we don't know" or "not applicable". Optional bir kutu gibidir, içinde veri olabilir veya boş olabilir. Oluşturmak için;
    Optional.empty();
    Optional.of(double);
-   opt.isPresent();			Optional boş mu?
+   opt.isPresent();			Optional içinde veri varmı?
    opt.get()				İçindeki değeri al (İçi boş ise NoSuchElementException fırlatır)
    Optional.empty()         null değeri temsil edebiliriz.
    
@@ -254,9 +254,18 @@ media/stream_pipeline.png)
 
 Burayı şuna benzetebiliriz. Fabrikayı yöneten üretim müdürü önce çalışanlara ne yapacaklarını önceden anlatır. Bu stream oluşturmaktır. Onların ne zaman başlayacağınıda Terminal operation a göre haber verir. Yani kaynakta iş varsa çalışanlara çalışmalarını emreder. Ayrıca intermediate operation da 2 tane iş yap var ise, kaynakta ne kadar olursa olsun, 2 den sonra dur da diyebilir.
 
-Intermediate operations such as filter() return a new stream on which further processing can be done. Terminal operations, such as forEach(), mark the stream as consumed, after which point it can no longer be used further.
+Intermediate operations verinin daha da işlenebilmesi için her zaman yeni bir stream oluştuturlar. Bu metodlar lazy çalışır ve veri işleme yapmazlar. Terminal operations, such as forEach(), mark the stream as consumed, after which point it can no longer be used further. Terminal operations verinin işlenmesini tetiklerler. 
 
 Computation on the source data is only performed when the terminal operation is initiated, and source elements are consumed only as needed. All intermediate operations are lazy, so they’re not executed until a result of a processing is actually needed.
+
+Bir "Typed Interface" dir. (Stream<T>) İçinde veri tutmaz. Bazı özellikleri;
+- Streams work perfectly with lambdas.
+- Streams don't store their elements.
+- Streams are immutable.
+- Streams are not reusable.
+- Streams don't support indexed access to their elements.
+- Streams are easily parallelizable.
+- Stream operations are lazy when possible.
 
 # Create Stream
 Stream interface'i java.util.stream package'ı içinde Stream<T> şeklinde tanımlıdır.
@@ -278,6 +287,10 @@ Sonsuz stream şöyle oluşturulabilir.
    
 media/creating_stream.png)
 
+Testlerde sürekli yeni stream oluşturmak yerine streamSupplier kullanılabilir.
+   Supplier<Stream<String>> streamSupplier = () -> Stream.of("A", "B", "C", "D");
+   streamSupplier.get().filter()
+
 You can perform a terminal operation without any intermediate operations but not the other way around. This is why we will talk about terminal operations first.
 Reductions are a special type of terminal operation where all of the contents of the stream are combined into a single primitive or Object. For example, you might have an int or a Collection.(mesela count, min, max metodları) Reduction, operasyon eğer streamin bütün elemanlarını geziyor ise buna reduction denir. 
 
@@ -286,11 +299,13 @@ media/terminal_stream_operations.png)
 # Stream Terminal Operations
 - count, sonlu streamdeki eleman sayısını verir(long döner)
 - min ve max, sonlu streamdeki min ve max elemanı comparator'a göre döner. 
-- findAny ve findFirst, sonlu ve sonsuz streamlerde kullanılabilir. 
+- findAny ve findFirst, sonlu ve sonsuz streamlerde kullanılabilir. findAny de genellikle ilk eleman dönsede rastgele eleman döner. findAny ve findFirst stream boş ise boş optional döner.
 - allMatch, anyMatch, ve noneMatch verilen Predicate'i arar. Recustion değildir, sonsuz streamlerde sonlanmama ihtimali vardır. Herhangi bir eşleşme durumunda stream durur ve diğer elemanları işlemez! 
+- allMatch(), noneMatch(), anyMatch()         Boolean döndürür
+- findFirst(), findAny()                      Optional döndürür
 - forEach sonlu ve sonsuz streamlerde verilen consumer'a göre çalışır. 
 - reduce, stream'i tek bir nesne içine koyar. Reduction dır, yani bütün elemanları işler.
-- collect, stream'i tek bir nesne içine koyar. Özel bir reduction'dır, "mutable reduction". Normal reduction dan daha verimlidir.
+- collect, stream'i tek bir nesne içine koyar. Özel bir reduction'dır, "mutable reduction". Normal reduction dan daha verimlidir. Bu bahsedilen nesne bir string de olabilir bir List de olabilir. Collectors.toList, Collectors.joining(""), Collectors.counting() gibi metodlarla yaparız bu işi.
 
 REDUCE;
 3 şekilde oluşturabiliriz. 
@@ -301,6 +316,9 @@ REDUCE;
 - If the stream is empty, an empty Optional is returned.
 - If the stream has one element, it is returned.
 - If the stream has multiple elements, the accumulator is applied to combine them. 
+
+Reduce fonksiyonu SQL aggregation fonksiyonları gibi çalışır, stream üzerinde max, min, count, avg gibi birleştirmeler yapmamızı sağlar. Reduce metodu iki parametre alır. Birincisi reduction işleminin kimliğini belirtmek için kullanılır. İkincisi ise bir BinaryOperator (BiFunction) fonsiyonudur. BinaryOperator BiFunction'ın aynı parametreler almış halidir. Identity değişkeni yapılan reduce işlemi sonucuna eklenir! Bu da max gibi işlemde yanlış sonuca sebebiyet verebilir, önlemek için Optional oluşturuldu. Bu yeni method imzasında redude metodunun sadece BinaryOperator alır ve Optional döndürür.
+
 
 COLLECT;
 Genelde StringBuilder and ArrayList ile yapılır. Veriyi stream dışına başka şekilde aktarmamızı sağlar. 
@@ -322,12 +340,15 @@ Collector'u her seferinde yazmak yerine, hazır collector lar tanımlanmıştır
 # Using common intermediate operations
 Filter
    Stream<T> filter(Predicate<? super T> predicate)
+Filter işlemi Predicate parametresi alır. Bu parametre boolean test metodunu içerir. Filter ile tanımlanan Predicate e göre filtreleme yapılır. Ayrıca Predicate and, or, negate, isEqual gibi metodlar da içerir ve Predicate ler zincir yapılabilir. Zincir yaparken öncelik yazma sırasına göredir;
+    p1.and(p2).or(p3)  =   (p1 AND p2) OR p3
+	
 Distinct, nesnelerin equals metodunu kullanır.
    Stream<T> distinct()
 Limit, skip
    Stream<T> limit(long maxSize)
    Stream<T> skip(long n)
-Map, datayı dönüştürmek için
+Map, datayı dönüştürmek için, Function alır.
    <R> Stream<R> map(Function<? super T, ? extends R> mapper)
 FlatMap, iç içe nesneler yaratmayı kolaylaştırmak için
    <R> Stream<R> flatMap(Function<? super T, ? extends Stream<? extends R>> mapper)
@@ -364,7 +385,7 @@ media/primitive_stream_methods2.png)
 Primitive stream oluşturma, java8.stream.PrimitiveStreams.java
 
 # Create with mapping
-Stream lerin map metodları streamleri birbirine çevirmeye yarar. Mesela bir string stream'i int stream'e her elemanı stringin uzunluğu olan stream'e çevirebilirsin. Tablodaki gibi metodlar ve çevrimler mevcuttur.
+Stream lerin map metodları streamleri birbirine çevirmeye yarar. Mesela bir string stream'i int stream'e her elemanı string in uzunluğu olan stream'e çevirebilirsin. Tablodaki gibi metodlar ve çevrimler mevcuttur.
 media/primitive_stream_mapping.png)
 
 media/primitive_stream_mapping_params.png)
@@ -412,4 +433,41 @@ Sonuçları gruplamak için aşağıdaki tablodaki metodlar hazır tanımlanmı�
 media/collectors1.png)
 media/collectors2.png)
 
+- Collectors.joining stringleri birleştirmek için kullanılır.
+- Collectors.toCollection(ArrayList::new) Stream'i bir Collection nesnesine çevirmeye yarar. Supplier alır.
+- Collectors.toList() List interface'ine çevirmek yeterli ise bu kullanılabilir.
+- Collectors.toSet()
+- Collectors.toMap(s -> s, String::length) ilk Function, key'in nasıl oluşacağı, ikinci Function ise value'nun nasıl oluşacağı
+- Collectors.toMap(s -> s, String::length, collector) buradaki fark ise aynı elemanların nasıl birleştirileceğini 3. parametre belirler
+- toMap metodları dönüşü HashMap olabilir, kesin değildir. Kesin olarak bir tip belirtmek istiyorsak, 4. parametre olarak "TreeMap::new" geçebiliriz.
+
+- Collectors.groupingBy stream içindeki elemanları Function a göre gruplar ve map olarak döner. Değerler ise gruplanmış List lerdir. Null dönmez, çünkü null a izin vermez. Burada oluşturulan map ve list in tiplerini set edebiliriz;
+   Collectors.groupingBy(
+      String::length, 
+      TreeMap::new, 
+      Collectors.toSet()));
+- Collectors.partitioningBy ise verilen Predicate'a göre stream'i ikiye ayırıp, map olarak true,false key leri döndürür. Predicate 'e uyanlar true keyinin içinde list olarak saklanır, uymayanlar da false olarak List de saklanır. Eşleşme olmama durumunda map de yine true veya false key'i bulunur ama List in içi boştur. Diğeri gibi list yerine set dönecek şekilde ayarlayabiliriz. Fakat diğeri gibi map türünü ayarlayamıyoruz.(Çünkü her zaman 2 key var, map türünü değiştirmeye ihtiyacımız olmaz!)
+   Collectors.partitioningBy(
+      s -> s.length() <= 7, 
+      Collectors.toSet()));
+- Collectors.mapping bir seviye aşağı inmemizi ve değerler için Collector yazmamızı sağlar. 
+
+
+## Lambda and anonymous classes
+
+So lambda expressions are an alternative to anonymous classes, but they are not the same.
+
+They have some similarities:
+
+- Local variables (variables or parameters defined in a method) can only be used if they are declared final or are effectively final.
+- You can access instance or static variables of the enclosing class.
+- They must not throw more exceptions than specified in the throws clause of the functional interface method. Only the same type or a supertype.
+
+Some significant differences between lambdas and anonymous classes:
+
+- For an anonymous class, the this keyword resolves to the anonymous class itself. For a lambda expression, this resolves to the enclosing class where the lambda is written.
+- Default methods of a functional interface cannot be accessed from within lambda expressions. Anonymous classes can.
+- Anonymous classes are compiled into inner classes, while lambda expressions are converted into private, static (in some cases) methods within their enclosing class. Using the invokedynamic instruction (added in Java 7), they are bound dynamically. Simply put, since there's no need to load another class, lambda expressions are more efficient than anonymous classes.
+
+Lambda Expression Anonymous class larddan daha performanslıdır. Çünkü Anonymous class new keyword ü ile oluşturulur ve LE a göre daha fazla kaynak tüketir!
 
