@@ -348,9 +348,13 @@ Distinct, nesnelerin equals metodunu kullanır.
 Limit, skip
    Stream<T> limit(long maxSize)
    Stream<T> skip(long n)
-Map, datayı dönüştürmek için, Function alır.
+Map, stream içindeki elemanları bire bir yeni bir stream'e dönüştürür, datayı dönüştürmek için kullanılır. Dönüştürme işini aldığı Function a göre yapar. Normal map ile alakası yok, isim karışıklığı olmasın. 
    <R> Stream<R> map(Function<? super T, ? extends R> mapper)
-FlatMap, iç içe nesneler yaratmayı kolaylaştırmak için
+FlatMap, bir koleksiyon içinde bulunan koleksiyonları tek bir koleksiyonda birleştirerek daha kolay işlem yapmamızı sağlar. Aşağıda görüldüğü gibi girişi herhangi bir type, dönüşü ise Stream olan bir fonksiyona yaptırır bu işi. it flattens 2 levels Stream into one level Stream. Şu şekilde;
+Stream<String[]>      -> flatMap ->	Stream<String>
+Stream<Set<String>>   -> flatMap ->	Stream<String>
+Stream<List<String>>  -> flatMap ->	Stream<String>
+Stream<List<Object>>  -> flatMap ->	Stream<Object>
    <R> Stream<R> flatMap(Function<? super T, ? extends Stream<? extends R>> mapper)
 Sorted, returns a stream with the elements sorted
    Stream<T> sorted()
@@ -375,9 +379,9 @@ list.stream()
 8- The limit() method has now seen all of the elements that are needed and tells the foreman. The foreman stops the line, and no more processing occurs in the pipeline.   
 
 ## Primitive Streams
-- IntStream: Used for the primitive types int, short, byte, and char
-- LongStream: Used for the primitive type long
-- DoubleStream: Used for the primitive types double and float
+- IntStream: 		int, short, byte, and char
+- LongStream: 		long
+- DoubleStream:		double and float
 
 media/primitive_stream_methods1.png)
 media/primitive_stream_methods2.png)
@@ -385,7 +389,7 @@ media/primitive_stream_methods2.png)
 Primitive stream oluşturma, java8.stream.PrimitiveStreams.java
 
 # Create with mapping
-Stream lerin map metodları streamleri birbirine çevirmeye yarar. Mesela bir string stream'i int stream'e her elemanı string in uzunluğu olan stream'e çevirebilirsin. Tablodaki gibi metodlar ve çevrimler mevcuttur.
+Stream lerin map metodları streamleri birbirine çevirmeye yarar. Mesela bir string stream'i int stream'e her elemanı string in uzunluğu olan stream'e çevirebilirsin. Burada farklı bir Functional Interface görürüz, ToIntFunction. Girişi type, çıkışı Integer. Tablodaki gibi metodlar ve çevrimler mevcuttur.
 media/primitive_stream_mapping.png)
 
 media/primitive_stream_mapping_params.png)
@@ -395,7 +399,7 @@ flatMap metodu Stream sınıfındaki gibi primitive stream lerde de vardır faka
 Primitive stream ler stream e dönüştürülebilir. Yukardaki tabloda gördüğümüz gibi mapToObj metoduyla veya boxed metoduyla. Farkı boxed da mapping fonksiyonuna ihtiyacımız yoktur, autobox yapar.
 
 # Using Optional with Primitive streams
-Primitive streamler için Optional sınıfının primitive leri bulunur. Normal Optional ile farkı ise normalde Wrapper sınıfları kullanılır, OptionalDouble gibi optionallarda ise primitive tipler kullanılır. 
+Primitive streamler için Optional sınıfının primitive leri bulunur. Normal Optional ile farkı ise normalde Wrapper sınıfları kullanılır, OptionalDouble gibi optionallarda ise primitive tipler kullanılır. Bunu getAsInti getAsLong, getAsDouble metodları ile sağlarlar, bunlar primitive döner. Optional kuralları tamamen aynıdır.
 
 media/primitive_optionals.png)
 
@@ -424,8 +428,7 @@ media/primitive_specific_functional_interfaces.png)
 # Chaining Optionals
 Optional ın da stream gibi map, flatMap, filter, ifPresent metodları bulunmaktadır. 
 
-79. sayfa kodunu yazarak anlayabilirsin ancak.
-Ayrıca checked exceptions kutusu
+Functional Interfaces ler checked exceptions fırlatmaz. Exception fırlatan bir kodumuz var ise bunu lambda içinde try catch metodu içine almalıyız.
 
 # Collecting Results
 Sonuçları gruplamak için aşağıdaki tablodaki metodlar hazır tanımlanmıştır. Collectors interface'inin static metodlarıdır. 

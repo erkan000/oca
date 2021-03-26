@@ -2,7 +2,6 @@ package java8.stream;
 
 import java.util.stream.Stream;
 
-@SuppressWarnings("unused")
 public class StreamCreate {	
 	
 	public static void main(String[] args) {

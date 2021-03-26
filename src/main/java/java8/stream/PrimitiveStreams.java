@@ -1,7 +1,14 @@
 package java8.stream;
 
+import java.util.ArrayList;
+import java.util.function.IntFunction;
+import java.util.function.ToIntFunction;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
+
+import org.assertj.core.util.Arrays;
 
 public class PrimitiveStreams {
 
@@ -33,9 +40,30 @@ public class PrimitiveStreams {
 		IntStream rangeClosed = IntStream.rangeClosed(1, 5);
 		rangeClosed.forEach(System.out::println);
 		
-		System.out.println("---");
+		System.out.println("--- mapToInt");
 		
-		System.out.println("---");
+		Stream<String> objStream = Stream.of("penguin", "fish");
+		ToIntFunction<String> mapper = s -> s.length();
+		IntStream intStream = objStream.mapToInt(mapper);
+		intStream.forEach(System.out::println);
+		
+		System.out.println("--- mapToObj");
+		
+		IntStream intStream2 = IntStream.of(7,4);
+		IntFunction<String> mapper2 = x -> {
+			if(x==7) {
+				return "yedi";
+			}else {
+				return "diger";
+			}
+		};
+		intStream2.mapToObj(mapper2).forEach(System.out::println);
+		
+		var aaa = new ArrayList<Long>();
+		aaa.add(Long.valueOf(4));
+		aaa.add(Long.valueOf(9));
+		LongStream longs = aaa.stream().flatMapToLong(x -> LongStream.of(x));
+		longs.forEach(System.out::println);
 	}
 
 }
