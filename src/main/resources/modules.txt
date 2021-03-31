@@ -1,0 +1,211 @@
+Moduller , The Java Platform Module System
+Örnek kodlar;
+https://github.com/boyarsky/sybex-1Z0-815-chapter-11
+
+Modüller şu problemleri çözer;
+- Bir package'a sadece belirli bir package grubunun ulaşmasını sağlamak
+- Bir package'ın hangi bağımlılıklarının olduğunu belirtmek.(Mesela junit4 jarını eklersin ama arka planda hamcrest kullanır ve bunu hata verene kadar bilemeyiz.)
+- Uygulamayı dağıtırken sadece uygulamamızın kullandığı sınıfları paketlemek(AWT kullanmıyorsak bunu kullanıcıya standart java dağıtımında vermemeliyiz) , uygulama boyutu küçültmek
+- Startup zamanını azaltmak. Java uygulamanın hangi modüller ile çalıştığını bildiği için sınıfların yüklemesi daha kısa zaman alır.
+- İki farklı jarda aynı package adınıda aynı sınıf olamazdı. JPMS bunun olmasını engeller.
+
+Modul "module-info.java" dosyasında tanımlanır. Tanımı şöyledir;(zoo.animal.feeding modülün ismidir!)
+
+module zoo.animal.feeding {
+}
+
+- module-info modülün root'unda olmalıdır. Diğer java sınıfları ise paketler içinde olmalıdır.
+- modül ismi package isim kuralları ile aynıdır. İsminde genellikle nokta olur ve tire olmaz.
+
+Derlemek için aşağıdaki bütün komutlar aynıdır;
+
+javac -p mods -d feeding
+   feeding/zoo/animal/feeding/*.java
+   feeding/*.java
+ 
+javac -p mods -d feeding
+   feeding/zoo/animal/feeding/*.java
+   feeding/module-info.java
+ 
+javac -p mods -d feeding
+   feeding/zoo/animal/feeding/Task.java
+   feeding/module-info.java
+ 
+javac -p mods -d feeding
+   feeding/zoo/animal/feeding/Task.java
+   feeding/*.java
+
+-d Directory for class files
+-p Module path "-p" yerine "--module-path" kullanılabilir.
+-m Module name "-m" yerine "--module" kullanılabilir. 
+
+Mesela maven projem için şu komut;
+- javac -p mods -d modules.hello src/main/java/test/modul/Task.java src/main/java/*.java
+
+Burada proje rootunda "modules.hello" isimli bir klasör oluştu ve içine .class dosyalarını derledi. Çalıştırmak için ise;
+- java -p klasor_adi -m modules.hello/test.modul.Task
+Çalıştırırken -p modül klasörü path'i, modules.hello modülün adını temsil eder. Çalıştırma syntax'i "moduleName/className" şeklindedir. Paketlemek için ise;
+- jar -cvf mods/modul_paketi.jar -C modules.hello2/ .
+Bu normal bir komut. modules.hello klasörü içindeki herşeyi, mods klasörü altında modul_paketi.jar dosyası olarak paketler. Jar içinden çalıştırmak için ise;
+
+- java -p mods -m modules.hello/test.modul.Task
+
+Diğer modüller eklemek için önce paketimizin kendini module-info.java dosyasına ekliyoruz. Aksi taktirde modül sadece komut satırından kendini çalıştırabilir. Şu şekilde eklenir;
+  exports zoo.animal.feeding;
+Export kelimesi modülden dışarıda olanlar için dışardan neyin ulaşılabilir olduğunu belirlemek için kullanılır.
+
+Eğer modülümüz çalışmak için başka bir modüle ihtiyaç duyuyor ise;
+  requires zoo.animal.feeding;
+
+Bu şekilde modül içinde birden fazla modül varsa derlerken onları da sırayla yazarız;
+javac -p mods
+   -d care
+   care/zoo/animal/care/details/*.java
+   care/zoo/animal/care/medical/*.java
+   care/module-info.java
+
+Burada sıra önemlidir. module-info başta olursa derlenmez. Veya gerekli olan başka bir modül daha yukardaysa da derlenmez. 
+
+Module-info.java
+Bu dosyada  exports, requires, provides, uses, and opens kelimelerini kullanabiliriz. Enteresan şekilde bunların hiçbiri Java keyword lerinden değildir. Çünkü bu kelimeler sadece module-info.java dosyası içinde geçerlidir, normla sınıflarda değişken adı vs için kullanılabilirler. 
+
+Exports
+Export bir paketi diğer modüllere açmak, export etmek için kullanılır. Bunu sadece belli modüllere de açabiliriz;
+  exports zoo.animal.talks.content to zoo.staff;
+
+We’ve been talking about exporting a package. But what does that mean exactly? All public classes, interfaces, and enums are exported. Further, any public and protected fields and methods in those files are visible.
+Fields and methods that are private are not visible because they are not accessible outside the class. Similarly, package-private fields and methods are not visible because they are not accessible outside the package.
+
+media/visible.png)
+
+REQUIRES TRANSITIVE(requires transitive moduleName)
+As you saw earlier in this chapter, requires moduleName specifies that the current module depends on moduleName. There’s also a requires transitive moduleName, which means that any module that requires this module will also depend on moduleName.
+
+- requires, requires transative aynı modül ismi için 2 defa tanımlanamaz, kod derlenmez.
+
+Ayrıca "provides" ve "uses" keyword leri bir API sunarken veya erişirken kullanılır. "opens" ise modüle reflection ile ulaşmamızı sağlar.
+
+Bazı komutlar.
+Elimizde bir modül jarı var. İçini açıp module-info ya bakmadan şu komutla modül içeriğini görüntüleyebiliriz.
+- java -p mods -d zoo.animal.feeding
+- java -p mods --describe-module zoo.animal.feeding
+Bu komut çıktısında son satırda "requires java.base mandated" yazar. Nasıl her java dosyasında java.lang otomatik import ediliyor ise, modüllerde ise java.base modülü otomatik olarak eklenir.
+Çıktıda "contains zoo.animal.care.details" görebiliriz. Contains modül içinde olan fakat dışarı açılmayan modülleri belirtir.
+Çıktıda "qualified exports zoo.animal.care.medical to zoo.staff" görebiliriz. qualified ise modülün tam ismini listeler.
+
+"java --list-modules" komutu JDK içindeki modülleri listeler.
+"java -p mods --list-modules" ise bizim yazdığımız custom modülleri de listeler.
+
+Modül bilgileri daha ayrıntısılarını da şu komutla alabiliriz. Bu komut aslında modülü çalıştırma komutu, sadece önüne resolution parametresi ekleniyor. Komut ayrıntıdan sonra modülü çalıştırır.
+java --show-module-resolution
+   -p feeding
+   -m zoo.animal.feeding/zoo.animal.feeding.Task
+
+Modül bilgisi detayı için jar komutu da kullanılabilir.
+- jar -f mods/zoo.animal.feeding.jar -d
+- jar --file mods/zoo.animal.feeding.jar --describe-module
+
+"jdeps" komutu modül içindeki bağımlılıkları gösterir. (modules.hello -> java.base formatında)
+- jdeps -s mods/zoo.animal.feeding.jar
+- jdeps -summary mods/zoo.animal.feeding.jar
+
+Summary kısmı olmadan da hangi modülün neye bağlı olduğunu ayrıntılı verir.
+- jdeps mods/zoo.animal.feeding.jar
+
+Bu modüle kimlerin bağımlı olduğunun ayrıntılı bilgisi
+- jdeps --module-path mods mods/zoo.animal.care.jar
+
+"jmod" komutu modülü jar yerine .jmod dosyası olarak kaydetmemizi sağlar. Genelde native library ler için veya değiştiremediğimiz jar lar için kullanılır. Komutları;
+create		Creates a JMOD file.
+extract		Extracts all files from the JMOD. Works like unzipping.
+describe	Prints the module details such as requires.
+list		Lists all files in the JMOD file.
+hash		Shows a long string that goes with the file
+
+Sınavda javac, java, jar ve jdeps komutları parametrelerini bilmelisin.
+
+## Özet module keywords;
+- exports <package>	Allows all modules to access the package
+- exports <package> to <module>	Allows a specific module to access the package
+- requires <module>	Indicates module is dependent on another module
+- requires transitive <module>	Indicates the module and that all modules that use this module are dependent on another module
+- uses <interface>	Indicates that a module uses a service
+- provides <interface> with <class>	Indicates that a module provides an implementation of a service
+
+## 3 tip modül vardır;
+- NAMED MODULES, içinde package-info.java dosyası olan ve module-path de bulunan modüllerdir. Bu dosyada modül ismi bulunur.
+- AUTOMATIC MODULES, içinde package-info.java dosyası olmayan ve module-path de bulunan modüllerdir. Modülarize değillerdir. Modül ismini java otomatik olarak set eder. Otomatik olarak bütün paketleri de export eder. Burada otomatik isim verme şu şekilde yapılır;
+ - If the MANIFEST.MF specifies an Automatic-Module-Name, use that. Otherwise, proceed with the remaining rules.
+ - Remove the file extension from the JAR name.
+ - Remove any version information from the end of the name. A version is digits and dots with possible extra information at the end, for example, -1.0.0 or -1.0-RC.
+ - Replace any remaining characters other than letters and numbers with dots.
+ - Replace any sequences of dots with a single dot.
+ - Remove the dot if it is the first or last character of the result.
+- UNNAMED MODULES, içinde package-info.java dosyası olmayan ve class-path de bulunan modüllerdir. Bildiğimiz standart jar dosyalarıdır. Eğer içine module-ingo.java dosyası eklenirse, class-path de bulunduğu için ignore edilir. Named ve Automatic e ulaşabilir fakat kimse ona ulaşamaz, hiçbir package export etmez. 
+
+## Modül tipleri karşılaştırma
+- Class-path deki kod module-path e ulaşabilir.
+- Module-path deki kod class-path e ulaşamaz. Sadece module-path okur.
+
+media/module_types.png)
+
+# Built-in Modules
+Java 9'a kadar bir uygulama JDK nın istediği kısmını import edip kullanabiliyordu. Java 9 ile beraber uygulama JDK nın hepsini veya sadece bir subset'ini kullanacağını belirtebilir. 
+En önemli subset "java.base" dir. requires ile eklememize gerek yoktur, çünkü bütün modüler uygulamalara otomatik olarak eklenir. En sık kullanılan modüller;
+
+media/common_modules.png)
+
+## jdeps
+jdeps komutu dependencies hakkında bilgi verir. Modülarize etmediğimiz uygulamaları bu komutla hangi modüllere ihtiyaç duyacağını kolayca tespit edebiliriz. Aşağıdaki komut ile require ile eklememiz gereken modül isimlerini listeleriz. 
+- jdeps -s myApp.jar 	(-s, Summary)
+Eğer uygulamamızda Java nın internal bir package'ını kullanıyorsak(java.misc), onu replace etmek için tavsiyeleri görebileceğimiz şu komutu çalıştırabiliriz;
+- jdeps --jdk-internals myApp.jar 
+
+# Migration applications
+Modüler olmayan uygulamalarımızı modüler hale getirmek için bazı stratejiler bulunur. Bunlar;
+- Ordering modules
+- Bottom-up migration
+- Top-down migration
+- Split up
+
+## Ordering modules
+Migration ı kolaylaştırmak için bağımlılıklar yukardan aşağı doğru yazılmaya çalışılır. Burada en alta bağımlılığı olmayan modüller konar ve yukarıya doğru alttakilere bağımlılar çizilir.
+
+## Bottom-up migration
+Modüler olmayan jarları değiştirme imkanımız varsa bu yöntem seçilir. Adımları;
+- Pick the lowest-level project that has not yet been migrated.
+- Add a module-info.java file to that project. Be sure to add any exports to expose any package used by higher-level JAR files. Also, add a requires directive for any modules it depends on.
+- Move this newly migrated named module from the classpath to the module path.
+- Ensure any projects that have not yet been migrated stay as unnamed modules on the classpath.
+- Repeat with the next-lowest-level project until you are done.
+
+media/bottom_up_migration.png)
+
+## Top-down migration
+Modüler olmayan jarları değiştirme imkanımız yoksa bu yöntem seçilir. Adımları;
+- Place all projects on the module path.
+- Pick the highest-level project(have most dependencies) that has not yet been migrated.
+- Add a module-info file to that project to convert the automatic module into a named module. Again, remember to add any exports or requires directives. You can use the automatic module name of other modules when writing the requires directive since most of the projects on the module path do not have names yet.
+- Repeat with the next-lowest-level project until you are done.
+
+media/top_down_migration.png)
+
+## Split up
+Projemizdeki paketleri gruplayarak da modülere geçirebiliriz. Paketleri gruplara ve aralarındaki bağımlılıkları çizerek daha kolay yaparız. Burada çigt taraflı bağımlılıkları oluşabilir. A cyclic dependency, or circular dependency iki modülün birbirine bağımlı olmasıdır. Fakat JMS buna izin vermez, bağımlılık sadece tek yönlüdür. Çözmek için paketlerimizi daha ayrıntılı gruplara ayırmalıyız. Circular dep yazsak bile compile edilemez! 
+
+# Service
+Servisler interface, interface in kullandığı sınıflar ve interface'in implementation lookup yöntemini içerir. Java6 da ServiceLoader, ServiceLocator  mekanizması ile servisler gelmiştir. Uygulamayı tekrar compile etmeden yeni özellikler eklememizi sağlar. 
+- Service Provider Interface, servisin belirttiği işi tanımlayan interface ve kullandığı sınıflardır.(Servis için bir API'dir)
+- Service Locator, SPI yı implemente eden sınıfları bulmamızı sağlar. ServiceLoader.load(SPI.class) metoduyla yapılır. Java bu metod ile bulabildiği bütün implementation ları döner. Pahalı bir işlemdir. Cache e alınması tavsiye edilir. 
+- Service Provider, SPI yı implemente eden sınıftır. Bu sınıfı modül yazmak için expose etmemize gerek yoktur. provides keyword ü ile bu interface'i implemente ediyorum dememiz kafidir. "provides interfaceName with className"
+
+Bu sayede SPI ve SL yi tekrar compile etmeden SP yi değiştirebiliriz. Ayrıca java bir modülde tek bir SPI ve SL olmasına izin verir. 
+
+ServiceLoader.load(Tour.class) metodunu list dönüyor fakat stream olarak da elde edebiliriz. 
+   ServiceLoader.load(Tour.class)
+         .stream()
+         .map(Provider::get)
+
+Özet;
+media/services.png)
+
