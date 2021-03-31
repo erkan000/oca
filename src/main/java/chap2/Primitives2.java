@@ -9,6 +9,9 @@ public class Primitives2 {
 		char c = 'U';
 		System.out.println(c+1);
 		
+		short bird = 'd';
+		System.out.println("Bird:" + bird);
+		
 		int d,e,cc = 2;
 		e = 5;
 		e = b;
