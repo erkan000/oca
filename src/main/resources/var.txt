@@ -13,5 +13,8 @@ Java 10 ile var keyword'ü geldi. Tip belirtmeden değişken yazmamızı sağlar
 - A var is always initialized on the same line (or statement) where it is declared.
 - The value of a var can change, but the type cannot.
 - A var cannot be initialized with a null value without a type.
-- A var is not permitted in a multiple-variable declaration.
+- A var is not permitted in a multiple-variable declaration.(var winter = 12, cold; doesn't compile)
 - A var is a reserved type name but not a reserved word, meaning it can be used as an identifier except as a class, interface, or enum name.
+
+
+var squirrel = new Object();   // geçerlidir. Nesne atanabilir.

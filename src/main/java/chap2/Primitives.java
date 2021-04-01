@@ -4,9 +4,6 @@ import static chap4.String_.STATIC_DEGISKEN;
 
 public class Primitives {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		//numeric
 		byte bb = 123;		//8  bit
@@ -14,8 +11,16 @@ public class Primitives {
 		int i = 10000;		//32 bit
 		long l = 0x10c;		//64 bit
 		
-		float f1 = 320;
-		//float ff = 320.0;
+		int €1 = 1;
+		
+		int amount = 0xF;
+		System.out.println("0xF: " + amount);
+		int Amount = 0b11;
+		System.out.println("0b11: " + Amount);
+		
+		
+		float f1 = 320;		// int 
+		float ff = 320.0f;	// ondalık varsa f yazmak zorundayız
 		
 		double d1 = 320;
 		double d2 = 320.0;
@@ -25,10 +30,11 @@ public class Primitives {
 		char cc1 = '\u0090';
 		
 		l = 0_100_162_152;
-		//l = 0b_101010;
+		//l = 0b_101010;    // 0b den sonra yazılmaz.
 		l = 100___12;
 		
-		System.out.println( 'b' + 1); 
+		System.out.println("char toplama sonucu:");
+		System.out.println('b' + 1); 
 		
 		double sum = bb + i + l + s;
 		System.out.println(sum);
@@ -36,7 +42,7 @@ public class Primitives {
 		int ii = 0, jj = 10;
 		//Valid
 		
-		double x=10; double y;
+		double x=10;double y;
 		double xx=10, yy;
 		
 		//bu şekilde yanlış ya arada ; olacak ya da double'ı sil.

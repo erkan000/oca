@@ -7,11 +7,11 @@ public class DoubleTest {
 
 	public static void main(String[] args) {
 		
-		// a veya b den herhangi birinin ondal�k k�sm� var ise sonu� .6000000000000005 oluyor!
+		// a veya b den herhangi birinin ondalık kısmı var ise sonuç .6000000000000005 oluyor!
 		// https://blogs.oracle.com/corejavatechtips/the-need-for-bigdecimal
 		// Floating point aritmethics
 		
-		// Ayrıca hiçbir zaman BigDecimal constroctor �na double ge�me, ondal�k k�sm� kayediyor! testlerde yan�labilirsin.
+		// Ayrıca hiçbir zaman BigDecimal constroctor ına double geçme, ondalık kısmı kayediyor! testlerde yanılabilirsin.
 		
 		double a = 2.2;
 		double b = 3.0;

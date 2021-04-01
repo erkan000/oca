@@ -2,10 +2,13 @@ package chap2;
 
 public class PlusPlus {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {		
 		int sonuc= 0;
 		int sayi = 10;
 		sonuc = ++sayi + sayi++;
+//		Önce postfix işlenir(sayi++)
+//		sonuc = ++sayi + 10     --- sayı 11 ama
+//		sonuc = 12 + 10         --- sayı 11 değerine bir ekleyip hemen eşitlikte yerine yaz.
 		System.out.println(sonuc);
 		System.out.println(sayi);
 		

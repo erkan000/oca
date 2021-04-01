@@ -214,6 +214,7 @@ double    --->   3.0d veya 3.0D
 
 ![](media/primitive_defaults.png)
 
+- A class variable of type long defaults to "0L". Soruda sonuna harf koyuluyor.
 - Java7 ile underscore kullanarak literal değerleri gruplandırma özelliği gelmiştir. 
 
 Numeric literal kuralları;
@@ -238,6 +239,10 @@ Character  --->  \u0000 ile \uffff arasındadır. Tanımlanınca default değeri
 Değişken isimlendirme kuralları;
 ![](media/identifiers.png)
 
+- a single underscore is no longer allowed as an identifier as of Java 9
+- Özetle değişken isimleri harf, sayı, para birimi simgesi veya underscore dan oluşur. Tek istisna ilk harf sayı olamaz ve tek olarak underscore olamaz ve java keyword'ü olamaz.
+- a period (.) is not  allowed in identifiers
+
 Assignment operators
 a += b    --->   a=a+b
 a =+ b   --->   böyle birşey yok
@@ -247,12 +252,13 @@ int c +=2   --->  NOT
 
 - Büyük değerler küçüğe sığmaz fakat tersi çalışır.
      int = byte , long = int
-- result++    >     orjinal value          > sonra işlem
+- result++    >     orjinal value          > sonra işlem , geçerli değeri işlemde yaz, sonra değerini arttır. Yani bir eşitlikte 2 yaz, ama değeri başka yerde görürsen 3 olarak ata.
 - ++result    >     incremented value      > önce işlem
 - System.out.println(a=5)    		5 yazar. Atanan değer yazılır!
 - System.out.println(sayi += 2);	sayi ilk değeri 2 ise, 4 yazar!
 - &&   eğer ilk koşul false ise , 2. koşul asla çalışmaz!! Mesela if(false && e++ > 10) eşitliğinde e'nin değeri hiçbir zaman artmaz.
 - float ve double'a integerlar atanabilir, karşılaştırma yapılabilir.
+- float, double değerler consola yazarken sayının sonunda f veya d yazmaz! 0.0 şekilde yazar.
 
 Operatör öncelikleri;
 ![](media/precedence.png)
