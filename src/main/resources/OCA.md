@@ -263,11 +263,11 @@ int c +=2   --->  NOT
 Operatör öncelikleri;
 ![](media/precedence.png)
 
-### Operatorler
+### Java operatör türleri
 
-- Unary (tekli)
-- Binary (ikili)
-- Ternary (üçlü)
+- Unary (tek parametreli)
+- Binary (iki parametreli)
+- Ternary (üç parametreli)
 
 **İşlem Öncelikleri**
 
@@ -304,6 +304,13 @@ and results in x having the value 7 because it is equivalent to:
 
 short x = 3;
 x = (short)(x + 4.6);
+
+**Numeric Promotion**
+
+- If two values have different data types, Java will automatically promote one of the values to the larger of the two data types.
+- If one of the values is integral and the other is floating-point, Java will automatically promote the integral value to the floating-point value’s data type.
+- Smaller data types, namely, byte, short, and char, are first promoted to int any time they’re used with a Java binary arithmetic operator, even if neither of the operands is int.
+- After all promotion has occurred and the operands have the same data type, the resulting value will have the same data type as its promoted operands.
 
 **Explicit Casting**
 
