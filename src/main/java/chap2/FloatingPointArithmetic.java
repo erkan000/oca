@@ -3,7 +3,7 @@ package chap2;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class DoubleTest {
+public class FloatingPointArithmetic {
 
 	public static void main(String[] args) {
 		

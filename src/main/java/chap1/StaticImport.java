@@ -10,7 +10,7 @@ public class StaticImport{
 		
 		System.out.println(args.length);	//args asla null olmaz.
 		System.out.println(MAX_VALUE);
-		out.println("2");
+		out.println("Bu satır static import ile yazıldı.");
 		try {
 			throw new IOException();
 		} catch (IOException e) {
