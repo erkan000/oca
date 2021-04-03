@@ -25,6 +25,7 @@ public class Primitives {
 		double d1 = 320;
 		double d2 = 320.0;
 		byte b1 = (byte)320;
+		System.out.println("Fazla size:" + b1);
 
 		char ccc = 10;		//16 bit
 		char cc1 = '\u0090';
@@ -34,16 +35,11 @@ public class Primitives {
 		l = 100___12;
 		
 		System.out.println("char toplama sonucu:");
-		System.out.println('b' + 1); 
+		System.out.println('b' + 1);   // b ascii=98
 		
-		double sum = bb + i + l + s;
-		System.out.println(sum);
-		
-		int ii = 0, jj = 10;
-		//Valid
-		
-		double x=10;double y;
-		double xx=10, yy;
+		int ii = 0, jj = 10; //Valid
+		double xx=10, yy;    //Valid		
+		double x=10;double y;		
 		
 		//bu şekilde yanlış ya arada ; olacak ya da double'ı sil.
 		//double x=10, double y;
@@ -51,7 +47,7 @@ public class Primitives {
 		int sd = STATIC_DEGISKEN;
 
 		//Chaining
-		int a, b, c=100;
+		int a, b=12, c;
 		int aa, dd, cc;
 		aa = dd = cc = 100;
 		int d=100, e, f;

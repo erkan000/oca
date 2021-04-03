@@ -10,20 +10,17 @@ public class Casting {
 		char c = 'A';		//16 bit
 		long l = c ;		//64 bit
 
-
-		byte bb = 'm' ;
-		System.out.println(l);
-
+		// char ve short birbirlerine cast etmeden atanamazlar. char negatif değil.
 		c = (char)s ;
 		s = (short)c ;
 
 		l=b;
-		b=(byte)l;
+		b=(byte)l;   // long byte a ancak cast ile atanır.
 
 		//SONUÇ BÜYÜK KÜÇÜĞE CAST A GEREK YOK, TERSİNDE İSE GEREK VAR.
 		//CHAR VE SHORT HARİÇ
 
-		System.out.println(parseFloat("0.0"));
+		
 
 		//short sonuc = c;
 		//System.out.println(sonuc);
@@ -36,22 +33,7 @@ public class Casting {
 
 	}
 
-	public static float parseFloat( String s ){
-		float f = 0.0f;
-		try{
-			f = Float.valueOf( s ).floatValue();
-			return f ;
-		}
-		catch(NumberFormatException nfe){
-			f = Float.NaN ;
-			return f;
-		}
-		finally{
-			f = 10.0f;
-			return f;
-		}
 
-	}
 	
 	
 

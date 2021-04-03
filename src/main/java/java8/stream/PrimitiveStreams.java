@@ -8,8 +8,6 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import org.assertj.core.util.Arrays;
-
 public class PrimitiveStreams {
 
 	public static void main(String[] args) {
