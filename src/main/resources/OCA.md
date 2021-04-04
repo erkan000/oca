@@ -252,13 +252,16 @@ int c +=2   --->  NOT
 
 - Büyük değerler küçüğe sığmaz fakat tersi çalışır.
      int = byte , long = int
+- Büyük küçüğe cast edilerek atanabilir ancak. Fakat bu durumda küçüğün deüeri taşabilir. Taşma yaşanırsa küçük tipin değeri negatif olur!
 - result++    >     orjinal value          > sonra işlem , geçerli değeri işlemde yaz, sonra değerini arttır. Yani bir eşitlikte 2 yaz, ama değeri başka yerde görürsen 3 olarak ata.
 - ++result    >     incremented value      > önce işlem
+- The return value of an assignment operation in the expression is the same as the value of the newly assigned variable.
 - System.out.println(a=5)    		5 yazar. Atanan değer yazılır!
 - System.out.println(sayi += 2);	sayi ilk değeri 2 ise, 4 yazar!
 - &&   eğer ilk koşul false ise , 2. koşul asla çalışmaz!! Mesela if(false && e++ > 10) eşitliğinde e'nin değeri hiçbir zaman artmaz.
 - float ve double'a integerlar atanabilir, karşılaştırma yapılabilir.
 - float, double değerler consola yazarken sayının sonunda f veya d yazmaz! 0.0 şekilde yazar.
+- casting floating point numbers to integral values results in truncation, not rounding. Yani double 2.9 değerini int değere atarsan int değer 2 olur!
 
 Operatör öncelikleri;
 ![](media/precedence.png)
@@ -271,7 +274,9 @@ Operatör öncelikleri;
 
 **İşlem Öncelikleri**
 
-  System.*out*.println(12+1>4+2);
+Önce Unary, sonra binary ve ternary  
+
+System.*out*.println(12+1>4+2);
   //Comparison Expressions < Mathematical Expressions 
 
 **boolean** a = **false**;
@@ -402,20 +407,41 @@ Metodlara geçilen değer;
 3- Bu metodların sonucu hep new ile yeni String döndürür!
 
 Metodların bazı özellikleri;
-- Metodlar StringOperations.java sınıfında var.
+- Metodlar chap4.StringOperations.java sınıfında var.
+
+- += operatörü string için de kullanılabilir! ( s += "A" gibi)
+
 - indexOf metodu aradığını bulamazsa "-1" döndürür.
+
 - indexOf 3. karakterden ara dediğinde, belirtilen karakter de dahildir.
+
 - substring(i,j) de, i. karakter dahil, j. karakter hariç metni döndürür. (substring(3,4) bir karakter döner)
-- substring(i,j) de, i>j ise "StringIndexOutOfBounds" hatası fırlatır.
+
+- substring(i,j) de, i>j ise "StringIndexOutOfBounds" hatası fırlatır. i=j ise boş bir string döner, hata fırlatmaz!!
+
 - metodlarda genelde i dahil, j hariç oluyor.
 
-String sınıfı metodları için kodda "chapter4.aa.java"
-Koları yaz!!
+  - The intern() method returns the value from the string pool if it is there. Otherwise, it adds the value to the string pool.
+
+  > strip metodu Java 11 ile geldi. trim metodunun aynısı, ekstra olarak bir de unicode white spaceleri de siler.
+
+String sınıfı metodları için kodda "chap4.StringMethods.java"
+
 
 - String ler + ile birleştirilebilir.(concat) Bunu stringBuilder kullanarak yapar. + ile yeni bir String objesi oluşur.
 * (int + int + String)  -->    4 + 2 + test   --->   "6test"
 * Bu örnekte int değerler önce toplanır, sonra concat ile birleştirilir. Expression lar, soldan sağa doğru türetilir!
 - (null + string)       -->    "nulltest"
+
+## String Pool
+
+JVM belleği esnek kullanmak için aynı sabit stringleri tekrar oluşturmaz, string pool da tutar ve aynısı var ise o nesneyi döndürür. Aynı zamanda intern pool da denir. String sınıfındaki intern metodu da ilgili string pool da var ise pool dan getirir, yoksa pool a ekler. Burada bir string compile time da tanımlanan bir sabit ise pool dan çağırılır. Ama runtime da herhangi bir hesaplama veya metod çağırarak string'i elde ediyorsa, aynı olsa bile pooldan getirmez. Çünkü runtime da hesaplanarak aynı olduğu anlaşılıyor, compile time da değil. Poolda olsa dahi oluşturulan stringler;
+
+- += işleminde her zaman yeni bir string nesnesi oluşur. 
+- new String() de her zaman yeni string oluşur. 
+- String.metod da yeni string oluşur. 
+
+Örnekler, chap4.StringPool.java
 
 ## StringBuilder (Mutable strings)
 1. new StringBuilder();				default size is 16 char
@@ -425,6 +451,7 @@ Koları yaz!!
 
 Metodların bazı özellikleri, (StringBuilder döndürür!);
 StringBuilderTest.java
+
 - sb.append(..)		bütün primitive ler, char array, stringbuilder, Object
 - sb.append(object)	object nesnesinin toString metodu
 - sb.append(seq, i, j) i dahil, j hariç
@@ -462,7 +489,7 @@ arr = new int[2];	Burada 2 integer(char,byte,short,int) literal veya değeri ür
 arr = new int[2][];	OK
 arr = new int[][2];	Derlenmez!
 
-- Array elemanı remove edilemez!
+- Array elemanı remove edilemez!!!
 
 int arr[] = {0,1};
 int arr[] = new int[] {0,1};    yukardaki ile aynı
@@ -521,6 +548,8 @@ addAll(int i , collection)			Bir diziyi, diğerine ekler. i. pozisyondaki eleman
 
 ArrayListReferance.java da list referance var.
 
+List chimpanzees = new ArrayList<Integer>(); kodunda chimpanzees nin türü Object'tir. ArrayList in tipine bakmaz.
+
 ## Loops
 - Enhanced for loop	for(String tmp : arrList)
 - ListIterator 		arrList.listIterator()
@@ -568,39 +597,51 @@ switch(var)
 Burada default'un yeri farketmez, caseler arasında olabilir.
 ![](media/switch.png)
 
+Yukardaki tiplerde long, float, double olmadığına dikkat et. Bunların wrapperları da yoktur.
+> Yukardaki tiplere Java 10 ile var da eklenmiştir. Sadece var ın içindeki type, listelenenlerden biri ise izin verilir.
+
 Case değerleri;
+
 1. Kod compile edildiğinde üretilen değişkenler,
  - case 10*7   OK
- - case b+c    NOT (b final ise ve sonradan atanmamış ise olur.)
+ - case b+c    NOT (b final ise ve sonradan atanmamış ise derlenir. effectively final olmalı)
 2. case değeri switch argümanına atanabilir olmalıdır.
  - switch(byte)
       case int:    NOT
 3. case null olamaz, kod derlenmez.
+4. break herhangi bir case de kullanılabilirken, continue kullanılamaz. 
 
 ## for
 for(initalizion; condition; update)
-- init kısmı multiple olabilir, ama hepsi aynı tip olmalı, tanımlanan değişken sadece for içinde geçerlidir!
+- init, cond, update hepsi optional dır, yazmasan da derlenir. 
+- init kısmında multiple variable declaration olabilir, ama hepsi aynı tip olmalıdır. Birden fazla int tanımıda olmamalı sadece şu şekilde yazılmalıdır, int i=0, y=0
+- init kısmında tanımlanan değişken sadece for içinde geçerlidir!
 - condition tek olmalı
 - update, multable olabilir, metod çağırabilir, göründüğü sırayla çağrılır
 
 ![](media/for.png)
 
-## enhanced for
+## enhanced for(foreach)
+- Şu tiplerde kullanılabilir. Primitive array or any class that implements java.lang.Iterable.
 - elemanları silemez.
 - diziyi initalize edemez, elemanları değiştiremez.
 
 Elemanları değiştirmek istiyorsak;
 - primitive dönüyorsa birşey değişmez.
-- object dönüyorsa değişir(yrni instance atanmaz ise)
+- object dönüyorsa değişir(yeni instance atanmaz ise)
 
 ## while
 while(boolean or Boolean){
 }
 
+> Since Java 10, var is supported in both switch and while loops
+
 ## do while
 do{
 
 } while(boolean or Boolean)
+
+Burada boolean değer do-while içinde tanımlanırsa kod derlenmez. Do-while içi farklı bir alan, dikkat et.
 
 
 ## labelled statements
@@ -609,6 +650,7 @@ continue label2;   ---> label2:
 
 Label adı "label" olamaz, kod derlenmez.
 Labellar şu yerlere konabilir;
+
 - A code block defined using {}
 - All looping statements (for, enhanced for, while, do-while)
 - Conditional constructs (if and switch statements)
@@ -622,10 +664,20 @@ continue sadece şuralarda kullanılır.
 - for
 - while
 - do-while
-
 - break label'da kod label'ın kapattığı kod parçasına gider.(label'ın tanımlandığı son kod)
 - continue ise tam tersi, label'ın tanımlandığı kod'un devamını getirir.
 - continue label da ise, label'a gider ve diğer iteration'a geçer.
+
+## Unreachable code
+
+Yukarda anlatılan karar mekanizmalarının hepsinde  break, continue, and return kullanımından ötürü kodun bazı kısımları hiç çalışmayabilir. Bu gibi durumlarda kod derlenmez! Mesela;
+
+if(checkDate>100) {
+      break;
+      checkDate++;  // DOES NOT COMPILE
+   }
+
+
 
 # Chapter-6
 - Bir sıfını inherit etmek için "extends" keywordü kullanılır

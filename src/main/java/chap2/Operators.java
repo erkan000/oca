@@ -24,7 +24,7 @@ public class Operators {
 		 * 		~ tersi
 		 * 		& ve
 		 * 		| veya
-		 * 		^ XOR
+		 * 		^ XOR          aynı ise 0, farklı ise 1
 		 * 		<< sola
 		 * 		>> sağa
 		 */	

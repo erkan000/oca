@@ -4,14 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ArrayArrayList {
+public class ArrayListMetods2 {
 
 	public static void main(String[] args) {
-		short i = 4 ;
-		String   []   arr ;
-		arr = new   String      [i] ;
-		
-		//System.out.println(arr[1].charAt(0));
 		
 		ArrayList<String> list = new ArrayList() ;
 		boolean b = list.add("erk");
@@ -20,21 +15,20 @@ public class ArrayArrayList {
 		list.add("nurd");
 		
 		for (Object o : list) {
-			System.out.println(o);
+			System.out.println("list: " + o);
 		}
 		System.out.println("---");
 		
-		String a = list.set(1, "null degil");
-		System.out.println(a);
+		String a = list.set(1, "bos degil");
+		System.out.println("index-1 eski degeri:" + a);
 		
 		a = list.remove(0);
 		System.out.println(a  + " silinen");
 		
-		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-			String string = (String) iterator.next();
-			System.out.println(string);
-			
+		for (Object o : list) {
+			System.out.println("yeni list: " + o);
 		}
+		System.out.println("---");
 		
 		
 		ArrayList al = (ArrayList) list.clone();
@@ -53,9 +47,9 @@ public class ArrayArrayList {
 		one.replace("O", "B");
 
 		for (String val : myArrList)
-		 System.out.print(val + ":");
+			System.out.print(val + ":");
 		for (String val : yourArrList)
-		 System.out.print(val + ":");
+			System.out.print(val + ":");
 	}
 
 }

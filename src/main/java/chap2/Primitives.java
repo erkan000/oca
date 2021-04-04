@@ -1,7 +1,5 @@
 package chap2;
 
-import static chap4.String_.STATIC_DEGISKEN;
-
 public class Primitives {
 
 	public static void main(String[] args) {
@@ -44,7 +42,7 @@ public class Primitives {
 		//bu şekilde yanlış ya arada ; olacak ya da double'ı sil.
 		//double x=10, double y;
 
-		int sd = STATIC_DEGISKEN;
+		int sd = 12;
 
 		//Chaining
 		int a, b=12, c;

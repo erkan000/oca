@@ -15,7 +15,12 @@ public class StringMethods {
 		System.out.println(c1);
 		
 		int i1 = s1.indexOf("an",3);
+//		int i1 = s.indexOf('n');
 		System.out.println(i1);
+		
+		byte byt = 110;   // ascii 110 n harfi
+		int son = s1.indexOf(byt);
+		System.out.println("indexOf: " + son);
 		
 		String s2 = s1.substring(2,4);
 		System.out.println(s2);
@@ -30,6 +35,10 @@ public class StringMethods {
 		
 		System.out.println(1.2 + 4 + "ww" + null);
 		System.out.println(null + "ww");
+		
+		String bos = null;
+		bos += "4";
+		System.out.println(bos);
 	}
 
 }

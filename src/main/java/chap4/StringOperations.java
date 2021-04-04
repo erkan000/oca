@@ -1,5 +1,7 @@
 package chap4;
 
+import java.util.Locale;
+
 public class StringOperations {
 
 	public static void main(String[] args) {
@@ -39,6 +41,10 @@ public class StringOperations {
 		
 		baslarMi = text.startsWith("s", 6);
 		System.out.println("Start with s : " + baslarMi);
+		
+		System.out.println("Uppercase : " + text.toUpperCase(Locale.GERMANY));
+		
+		
 		
 	}
 

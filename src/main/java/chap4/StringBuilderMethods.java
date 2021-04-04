@@ -9,6 +9,7 @@ public class StringBuilderMethods {
 		System.out.println(sb1);
 		
 		sb1.append("Erkan", 1, 2);
+//		sb1.append(new char[]{'a','b'});
 		System.out.println(sb1);
 		
 		sb1.insert(1, "ekle");
@@ -19,6 +20,7 @@ public class StringBuilderMethods {
 		
 		short index = 4;
 		sb1.deleteCharAt(index);
+//		sb1.delete(start, end);
 		System.out.println(sb1);
 		
 		sb1.substring(4);
@@ -30,6 +32,12 @@ public class StringBuilderMethods {
 		
 		CharSequence a = sb1.subSequence(0, 2);
 		System.out.println(a);
+		
+		StringBuilder aa = new StringBuilder("abc");
+		StringBuilder b = aa.append("de");
+		b = b.append("f").append("g");
+		System.out.println("a=" + a);
+		System.out.println("b=" + b);
 		
 	}
 

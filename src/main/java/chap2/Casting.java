@@ -20,7 +20,8 @@ public class Casting {
 		//SONUÇ BÜYÜK KÜÇÜĞE CAST A GEREK YOK, TERSİNDE İSE GEREK VAR.
 		//CHAR VE SHORT HARİÇ
 
-		
+		System.out.println("double     cast: " + (double)2);
+		System.out.println("int-double cast: " + (int)(double)2);
 
 		//short sonuc = c;
 		//System.out.println(sonuc);
@@ -30,6 +31,7 @@ public class Casting {
 		//short ss = 10;		// 1    
 		//char cc = ss;		    // 2
 		//ss = cc;       		// 3 
+		
 
 	}
 

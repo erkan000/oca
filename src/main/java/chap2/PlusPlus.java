@@ -5,6 +5,9 @@ public class PlusPlus {
 	public static void main(String[] args) {		
 		int sonuc= 0;
 		int sayi = 10;
+		
+		System.out.println(sonuc++);           // önce değeri yazdır, sonra arttır.
+		
 		sonuc = ++sayi + sayi++;
 //		Önce postfix işlenir(sayi++)
 //		sonuc = ++sayi + 10     --- sayı 11 ama
@@ -23,10 +26,18 @@ public class PlusPlus {
 		sonuc /= 2;
 		sonuc -= 4;
 		sonuc = sonuc - 4;
-		
-		// sonuc -= sayi++ + --sayi;
+
+//		sonuc -= sayi++ + --sayi;                // alttaki satır ile aynı.
 		sonuc = sonuc - sayi++ + --sayi;
 
+		sonuc = 10;
+		sonuc = sonuc++;						// sonuc değeri hiçbir zaman artmaz!
+		System.out.println("Enteresan ++ = " + sonuc);
+		System.out.println(sonuc = sonuc++);
+		
+		
+
+		
 	}
 
 }

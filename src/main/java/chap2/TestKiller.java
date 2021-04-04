@@ -18,7 +18,7 @@ public class TestKiller {
 		}
 	}
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+
 		TestKiller t = new TestKiller();
 		TestKiller y = new TestKiller();
 		System.out.println(t.text == y.text);

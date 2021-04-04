@@ -18,3 +18,4 @@ Java 10 ile var keyword'ü geldi. Tip belirtmeden değişken yazmamızı sağlar
 
 
 var squirrel = new Object();   // geçerlidir. Nesne atanabilir.
+var monkeys = new ArrayList<>();  // List içindeki nesnelerin tipleri Object olur. 
