@@ -170,7 +170,7 @@ Abstract Metod
 - body almayan metod
 
 Abstract variable
-- abstract variable olmaz!
+- abstract variable olmaz!!!
 
 Final Keyword
 - Final class         --> cant extend by another class
@@ -183,7 +183,7 @@ Final Keyword
 Static Keyword
 - static variable     --> sınır yaratılmamış olsa bile halihazırda oluşur.
 - static method	      -->  - sınıfın instance variable'larına ulaşamazlar
-			   - static değişkeni manüpile etmek için kullanılırlar
+			   - static değişkeni manüpile etmek için kullanılırlar. Ayrıca utility ve helper metod yazmak için kullanılırlar. Sadece metodu çağırmamız gereken ve sınıfın instance elemanları ile işimizin olmadığı durumlarda kullanılırlar.
 			   - private değil ise kalıtımla miras kalırlar. Fakat override edilemez, sadece yeniden tanımlanırlar
 
 - Sadece global olan alanlara statik özelliğini verebiliriz.
@@ -362,7 +362,7 @@ Metod imzasını değiştirerek aşırı yüklemedir. Bu imza değiştirme kural
 * Yeri değişir iken birbiri yerine konacak tipler ile değiştirmek de kabul edilmez. Mesela int ve double parametre alan metodda bu ikisinin yerini değiştirmek yetmez, kod derlenmez. Çünkü bu değerler birbiri yerine geçebilir.
 2- Return type; sadece return type değiştirilerek overload yapılamaz, kod derlenmez. 
 * Bu kural aynı sınıfta veya farklı sınıflarda ama subclass veya derivated class ta ise çalışır.
-3- Access modifier; sadece access modifier değiştirilerek overload olmaz. Kod derlenemz. 
+3- Access modifier; sadece access modifier değiştirilerek overload olmaz. Kod derlenmez. 
 
 ## Constructors
 Sınıf oluşturur ve sınıf tipinde değişken döndürür.
@@ -371,7 +371,7 @@ Sınıf oluşturur ve sınıf tipinde değişken döndürür.
 - Başka birşey alırsa const. olmaz, metod olur. Mesela önüne sadece "void" alsa bile artık metod olur.
 
 ## Initalizer Block
-Her sınıf oluşturuldğnda çalışır.
+Her sınıf oluşturulduğunda çalışır.
 - Önce initalizer, sonra constructor çalışır!
 - Bir sınıfın constructor yoksa derlenirken compiler default constructor ekler.
 class{
@@ -727,7 +727,7 @@ Base class bir "abstract" class da olabilir.
 - Interface yazmasan da abstract'dır.
 - Interface final olamaz.
 - Interface içine tanımlanan değişken public, final ve static dir. (Yazılmazsa bile compiler ekler.)
-- Değişkenler önüne synchronized, transient or volatile eklenemez, eklersen derlenemz.
+- Değişkenler önüne synchronized, transient or volatile eklenemez, eklersen derlenmez.
 - Interface sadece sabit tanımlanabilir. Atandıktan sonra değeri değişmez.
 - Interface metodları ise public ve abstract dir. (yazmazsan ekler.)
 - Metodlar statik olamaz. Çünkü Java da statik metodlar abstract olamaz.

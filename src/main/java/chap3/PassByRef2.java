@@ -19,9 +19,6 @@ public class PassByRef2 {
 
 }
 
-class Person {
-	
-	public String name;
-	public int height;	
-	
+class Person {	
+	public String name;	
 }

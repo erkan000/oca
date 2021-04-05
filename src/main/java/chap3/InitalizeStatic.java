@@ -2,7 +2,7 @@ package chap3;
 
 /**
  * 
- * Statik alanla rsınıflara ai tolan alanlardır ve statik olmayan(nesneye ait alanlar) alanlara göre ilk değerlerini daha önce alırlar.
+ * Statik alanlar sınıflara ait olan alanlardır ve statik olmayan(nesneye ait alanlar) alanlara göre ilk değerlerini daha önce alırlar.
  *
  */
 
@@ -40,6 +40,7 @@ public class InitalizeStatic {
 	}
 
 	Tabak t1 = new Tabak(1,"statik-olmayan alan");
+	
 	public void islemTamam() {
 		System.out.println("Islem tamam");  
 	}
@@ -47,9 +48,11 @@ public class InitalizeStatic {
 	static Catal  c2 = new Catal(2,"statik alan");
 
 	public static void main (String args[]  ) throws Exception {
+		System.out.println("---");
 		InitalizeStatic d = new InitalizeStatic();
 		d.islemTamam();
 	}
+	
 	static Tabak t4 = new Tabak(4,"statik alan");
 	static Tabak t5 = new Tabak(5,"statik alan"); 
 

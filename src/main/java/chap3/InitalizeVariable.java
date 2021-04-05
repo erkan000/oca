@@ -25,6 +25,7 @@ public class InitalizeVariable {
 
 
 	public static void main (String args[]) throws Exception {
+		System.out.println("----");
 		InitalizeVariable d = new InitalizeVariable();
 		d.islemTamam();
 	}

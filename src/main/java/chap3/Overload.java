@@ -26,5 +26,8 @@ public class Overload {
 		return;
 	}
 	
+//	Bu iki imza aynıdır.
+//	void List<String> list1
+//	void List<Integer> list2
 
 }
