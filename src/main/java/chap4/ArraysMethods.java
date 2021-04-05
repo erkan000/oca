@@ -23,6 +23,7 @@ public class ArraysMethods {
 		
 		int compare = Arrays.compare(numbers, numbers2);
 		System.out.println("compare = " + compare);
+		
 	}
 
 }

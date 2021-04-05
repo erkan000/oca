@@ -525,6 +525,14 @@ intArr.clone()  	Clone metodu arrayin tipi ne ise aynısını döndürür.
 string.length()		metod
 arr.length		variable (public final int)
 
+## Arrays class
+
+Arrays sınıfı yardımcı metodlar sağlar. Parametre olarak 
+
+- Arrays.equals()	        true	 false
+- Arrays.compare()	    0	       Positive or negative number
+- Arrays.mismatch()	 -1	      Zero or positive index
+
 ## ArrayList(java.util.ArrayList)
 - Değişken boyutlu dizidir. Eleman eklenir, çıkarılır ve initial size gerekmez.
 - Ekleme sırasını korur!!!
