@@ -833,7 +833,6 @@ early binding
 - Stack Trace: JVM unhandled excepition alınca hangi metodları sırayla çağırdığını gösteren tracedir.
 - Exception bir nesnedir! Hepsi "java.lang.Throwable" ın sub-class ıdır.
 - Kod çalışırken exception olursa uygun bir sınıfta exception nesnesi oluşturulur ve JVM e verilir. JVM OS un stackine bakar ve uygun yerde hatayı verir.
-
 - Checked Exceptions : RunTimeException'dan extend olmayan hatalardır.
 - Eğer bir metod tanımında "throws Excepiton" varsa onu çağıran kodda mutlaka excepiton handler olmalıdır. Yoksa kod derlenmez.
 - Finally her zaman çalışır.
@@ -841,8 +840,10 @@ early binding
 - finally hata fırlatan metodu çağırırsa, kod derlenmez. 
 - Eğer try veya catch bloğun içinde "return" var ise, return bittikten sonra finally bloğu çalışır, ondan sonra devam eder.
 - Eğer hem catch hem finally bloğun içinde "return" var ise, finally bloğundaki değer alınır.
-- Return ederken catch bloğu finally bloğuna değişkeni/objeji gönderir. Eğer gönderilen primitive ise finally bloğu bu değeri değiştiremez, nesne ise değiştirebilir. Son dönen finally olduğu için onun değeri kalır. 
-- Birden fazla catch olduğu durumda, Exceptionlar birbiri ile IS-A ilişkisi var ise yazılma sırasının önemi vardır. Yoksa kod derlenmez. Hatırlatma için şu örnek kullanılabilir. Hata olarak tiger fırlatıldığını düşünelim. Catch de ise Animal ise yakala ve Tiger ise yakala olsun. İlk yazılan catch Base class, yani Animal olursa, fırlatılan tiger hep Animalda yakalanacak asla tiger catch inde yakalanmayak. İkinci catch hiçvir zaman çalışmayacaktır. Bu sebepten kod derlenmez. Base en sonra olmalıdır.
+- Return ederken catch bloğu finally bloğuna değişkeni/objeyi gönderir. Eğer gönderilen primitive ise finally bloğu bu değeri değiştiremez, nesne ise değiştirebilir. Son dönen finally olduğu için onun değeri kalır. 
+- Birden fazla catch olduğu durumda, Exceptionlar birbiri ile IS-A ilişkisi var ise yazılma sırasının önemi vardır. Yoksa kod derlenmez. Hatırlatma için şu örnek kullanılabilir. Hata olarak tiger fırlatıldığını düşünelim. Catch de ise Animal ise yakala ve Tiger ise yakala olsun. İlk yazılan catch Base class, yani Animal olursa, fırlatılan tiger hep Animalda yakalanacak asla tiger catch inde yakalanmayak. İkinci catch hiçbir zaman çalışmayacaktır. Bu sebepten kod derlenmez. Base en sonra olmalıdır.
+- Catch ile birden fazla hata yakalanabilir. "catch(Exception1 | Exception2 | Exception3 e)"
+- 
 
 ![](media/throwable.png)
 ![](media/error.png)
@@ -872,12 +873,14 @@ IllegalStateEx			for send signals for status
 
 ** Base hiçbir exception fırlatmıyorsa derivated sadece checked fırlatabilir.
 
+** Base hata fırlatıyorsa, child hata fırlatmamayı seçebilir. Yani child sadece daraltabilir. Child base de ki exception'ı daha da genişletemez! yoksa kod derlenmez. 
+
 ## Errors
 - JVM tarafından fırlatılan environment ile ilgili hatalardır.
 
 StackOverflowEx		bir program kendini birçok kez çağırırsa ve program için ayrılan memory stack taşarsa alınır
 OutofMemoryError	JVM run out of memory on the HEAP
-ExectionInInitalizier	Sınıfın static initalizerinde oluşar her türlü hatada bu alınır. Sadece RuntimeException bu hataya sebep olabilir.
+ExceptionInInitalizer	Sınıfın static initalizerinde oluşar her türlü hatada bu alınır. Sadece RuntimeException bu hataya sebep olabilir.
 NoClassDefinitionfound	Classpath düzgün ayarlanmazsa veya compile etmeden run edilirse bu hata alınır
 AssertionError	 	4 işlem metodu düşün, bu işlemlerden başkası gelir ise AssertionError fılatılır.
 

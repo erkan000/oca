@@ -35,9 +35,9 @@ javac -p mods -d feeding
    feeding/zoo/animal/feeding/Task.java
    feeding/*.java
 
--d Directory for class files
--p Module path "-p" yerine "--module-path" kullanılabilir.
--m Module name "-m" yerine "--module" kullanılabilir. 
+-d Specify where to place generated class files
+-p Module path "-p" yerine "--module-path" kullanılabilir.  Specify where to find application modules
+-m Module name "-m" yerine "--module" kullanılabilir.  Compile only the specified module(s), check timestamps
 
 Mesela maven projem için şu komut;
 - javac -p mods -d modules.hello src/main/java/test/modul/Task.java src/main/java/*.java
@@ -46,9 +46,26 @@ Burada proje rootunda "modules.hello" isimli bir klasör oluştu ve içine .clas
 - java -p klasor_adi -m modules.hello/test.modul.Task
 Çalıştırırken -p modül klasörü path'i, modules.hello modülün adını temsil eder. Çalıştırma syntax'i "moduleName/className" şeklindedir. Paketlemek için ise;
 - jar -cvf mods/modul_paketi.jar -C modules.hello2/ .
-Bu normal bir komut. modules.hello klasörü içindeki herşeyi, mods klasörü altında modul_paketi.jar dosyası olarak paketler. Jar içinden çalıştırmak için ise;
+Bu normal bir komut. modules.hello klasörü içindeki herşeyi, mods klasörü altında modul_paketi.jar dosyası olarak paketler.
+- c create jar
+- v verbose output
+- f jar file name
+- C . Change to the specified directory and include the following file
+
+ Jar içinden çalıştırmak için ise;
 
 - java -p mods -m modules.hello/test.modul.Task
+
+Komut satırı parametreleri özetlersek;
+Bir modül yaz, module-info da "module zoo.ani" yazsın, yani modül adı "zoo.ani". İçinde sadece zoo package i içinde Test.java olsun. Derlemek için 
+ - javac -d out -p src src/zoo/*.java src/*.java
+komutuyla out klasörü oluşturur ve içine class dosyalarını ekle. -p parametresi neden src anlamadım. Sonra çalıştırmak için 
+ - java -p out -m zoo.ani/zoo.Test
+Jar oluşturmak için;
+ - jar -cvf mod.jar -C out .
+Bu komutla out klasörü içindeki bütün dosyaları mod.jar dosyası içine koy deriz. Çalıştırmak için ise;
+ java -p mod.jar -m zoo.ani/zoo.Test
+
 
 Diğer modüller eklemek için önce paketimizin kendini module-info.java dosyasına ekliyoruz. Aksi taktirde modül sadece komut satırından kendini çalıştırabilir. Şu şekilde eklenir;
   exports zoo.animal.feeding;
@@ -67,7 +84,7 @@ javac -p mods
 Burada sıra önemlidir. module-info başta olursa derlenmez. Veya gerekli olan başka bir modül daha yukardaysa da derlenmez. 
 
 Module-info.java
-Bu dosyada  exports, requires, provides, uses, and opens kelimelerini kullanabiliriz. Enteresan şekilde bunların hiçbiri Java keyword lerinden değildir. Çünkü bu kelimeler sadece module-info.java dosyası içinde geçerlidir, normla sınıflarda değişken adı vs için kullanılabilirler. 
+Bu dosyada  exports, requires, provides, uses, and opens kelimelerini kullanabiliriz. Enteresan şekilde bunların hiçbiri Java keyword lerinden değildir. Çünkü bu kelimeler sadece module-info.java dosyası içinde geçerlidir, normal sınıflarda değişken adı vs için kullanılabilirler. 
 
 Exports
 Export bir paketi diğer modüllere açmak, export etmek için kullanılır. Bunu sadece belli modüllere de açabiliriz;
