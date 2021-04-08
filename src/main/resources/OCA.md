@@ -529,9 +529,9 @@ arr.length		variable (public final int)
 
 Arrays sınıfı yardımcı metodlar sağlar. Parametre olarak 
 
-- Arrays.equals()	        true	 false
-- Arrays.compare()	    0	       Positive or negative number
-- Arrays.mismatch()	 -1	      Zero or positive index
+- Arrays.equals()	        true	 1 or 0 (two arrays are equal if they contain the same elements in the same order)
+- Arrays.compare()	    0	       Positive or negative number(the value 0 if the first and second array are equal andcontain the same elements in the same order;a value less than 0 if the first array islexicographically less than the second array; anda value greater than 0 if the first array islexicographically greater than the second array )
+- Arrays.mismatch()	 -1	      Zero or positive index(İki dizi arasında aynı olmayan ilk elemanın indeksini döner.)
 
 ## ArrayList(java.util.ArrayList)
 - Değişken boyutlu dizidir. Eleman eklenir, çıkarılır ve initial size gerekmez.

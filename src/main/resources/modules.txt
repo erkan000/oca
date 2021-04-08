@@ -182,7 +182,7 @@ Sınavda javac, java, jar ve jdeps komutları parametrelerini bilmelisin.
 ## 3 tip modül vardır;
 Şu ana kadar hep module-path ile çalıştık, fakat eski uygulamalarımız hala class-path ile çalışmaktadır. Module sistemi ile beraber class-path aslında UNNAMED modul olmuştur. Yukarda tanımladıklarımız ise NAMED modüllerdir. 
 - NAMED MODULES, içinde package-info.java dosyası olan ve module-path de bulunan modüllerdir. Bu dosyada modül ismi bulunur.
-- AUTOMATIC MODULES, içinde package-info.java dosyası olmayan ve module-path de bulunan modüllerdir. Modülarize değillerdir. Modül ismini java otomatik olarak set eder. Otomatik olarak bütün paketleri de export eder. Burada otomatik isim verme şu şekilde yapılır;
+- AUTOMATIC MODULES, içinde package-info.java dosyası olmayan ve module-path de bulunan modüllerdir. Modülarize değillerdir. Modül ismini java otomatik olarak set eder. Otomatik olarak bütün paketleri de export eder. Migration için kullanılırlar. Burada otomatik isim verme şu şekilde yapılır;
  - If the MANIFEST.MF specifies an Automatic-Module-Name, use that. Otherwise, proceed with the remaining rules.
  - Remove the file extension from the JAR name.
  - Remove any version information from the end of the name. A version is digits and dots with possible extra information at the end, for example, -1.0.0 or -1.0-RC.
@@ -196,10 +196,12 @@ Bu durum reflection için de geçerlidir. Java 11 classpath de reflection da ça
 Access-restirictions ları reflection ile uygulanmadığının uyarısıdır. İlerde bu engellenecek ve uygulamamız çalışmayacaktır. Bu sorunu tespit edip uygulamamızın hata vermesini istersek "--illegal-access=deny" parametresini geçerek reflection ların access restritionu ihlal ettiği durumlarda uygulamamızın hata vermesini sağlayabiliriz. Java 16 ile default olarak deny yapılmıştır. Şu anda warn dur defaultu. Bu gibi durumlarda kullanılan kütüphanenin yeni versiyonunu indir. Yok ise geçici olarak "--add-opens" parametresini geçebilirsin.
 
 ## Modül tipleri karşılaştırma
-- Class-path deki kod module-path e ulaşabilir.
-- Module-path deki kod class-path e ulaşamaz. Sadece module-path okur.
+- Class-path deki kod module-path deki sınıflara ulaşabilir.
+- Module-path deki kod class-path deki sınıflara ulaşamaz. Sadece module-path'i okur.
+- Automatic de module-path de olduğundan module-path i okur. Ayrıca otomatik moduller class-path e de erişebilir!
 
 media/module_types.png)
+media/module_types2.png)
 
 # Built-in Modules
 Java 9'a kadar bir uygulama JDK nın istediği kısmını import edip kullanabiliyordu. Java 9 ile beraber uygulama JDK nın hepsini veya sadece bir subset'ini kullanacağını belirtebilir. 
@@ -235,10 +237,11 @@ media/bottom_up_migration.png)
 
 ## Top-down migration
 Modüler olmayan jarları değiştirme imkanımız yoksa bu yöntem seçilir. Adımları;
-- Place all projects on the module path.
+- Place all projects on the module path.(Sebebi class-path de bıraktığımız jar dosyaları module-path den ulaşılamaz. Bu sebepten onları hiçbirşey yapmadan module-path e taşırız ve automatic module dönüşürler. Bu sayede birbirlerine ulaşabilirler.)
 - Pick the highest-level project(have most dependencies) that has not yet been migrated.
 - Add a module-info file to that project to convert the automatic module into a named module. Again, remember to add any exports or requires directives. You can use the automatic module name of other modules when writing the requires directive since most of the projects on the module path do not have names yet.
 - Repeat with the next-lowest-level project until you are done.
+
 
 media/top_down_migration.png)
 
@@ -248,12 +251,22 @@ Projemizdeki paketleri gruplayarak da modülere geçirebiliriz. Paketleri grupla
 media/modules_cyclic.png)
 
 # Service
-Servisler interface, interface in kullandığı sınıflar ve interface'in implementation lookup yöntemini içerir. Java6 da ServiceLoader, ServiceLocator  mekanizması ile servisler gelmiştir. Uygulamayı tekrar compile etmeden yeni özellikler eklememizi sağlar. 
+Servisler; interface, interface in kullandığı sınıflar ve interface'in implementation lookup yöntemini içerir. Java6 da ServiceLoader, ServiceLocator mekanizması ile servisler gelmiştir. Uygulamayı tekrar compile etmeden yeni özellikler eklememizi sağlar. 
+
 - Service Provider Interface, servisin belirttiği işi tanımlayan interface ve kullandığı sınıflardır.(Servis için bir API'dir)
 - Service Locator, SPI yı implemente eden sınıfları bulmamızı sağlar. ServiceLoader.load(SPI.class) metoduyla yapılır. Java bu metod ile bulabildiği bütün implementation ları döner. Pahalı bir işlemdir. Cache e alınması tavsiye edilir. 
-- Service Provider, SPI yı implemente eden sınıftır. Bu sınıfı modül yazmak için expose etmemize gerek yoktur. provides keyword ü ile bu interface'i implemente ediyorum dememiz kafidir. "provides interfaceName with className"
-- Service Consumer, servisi kullananlar
-- Service Registry, SC ile SP nin arasında konumlanır ve ortak interface eri içerir.
+- Service Provider, SPI yı implemente eden sınıftır. 
+- Service Consumer, servisi tüketen, kullananlar.
+- Service Registry, SC ile SP nin arasında konumlanır ve ortak interface leri içerir.
+
+Diyelim ki MessageService imiz var ve içinde bir metod var, getMessage. Bunu bir interface ile temsil edelim ve Service Registry içine koyalım. Bu servisi SP implemente edecek ve SC ise tüketecektir. SP ve SC nin ortak olarak bildikleri tek bilgi budur. Aşağıdaki resimde greeter.cli modülü MessageService'i kullanmak istiyor, implementasyonu bilmiyor. Service Registry de bu interface'in bir veya daha fazla implementasyonu var. Bu sayede greeter.cli ayrıntıyı bilmeden MessageService içindeki metodu çalıştırabiliyor. Burada service registry ve API leri JDK nın bir parçasıdır. Bu sayede bu iki yapı decoupled edilmiş oldu. SC ve SP sadece ortadaki interface'i bilmektedir. 
+
+Burada SP yi yazarken package expose etmemize gerek yoktur. provides keyword ü ile bu interface'i implemente ediyorum dememiz kafidir. "provides interfaceName with className" . Normal expose dan farkı provides ile tanımlanan sınıflara sadece Service Locator yapısı ile ulaşabiliriz. Normal modüller içindeki sınıflara ulaşamaz. Consume eden ise sadece "uses" keywordü ile sınıfı kullanabilir. Aşağıdaki resimlerde örneği vardır.
+
+uses <package>.<type_name>;
+provides <package>.<type_name> with <package>.<type_name>;
+
+Ayrıca burada package name yerine javadaki gibi import yazıp, sadece sınıf adını da yazabiliriz!
 
 ![](media/modules_services.png)
 
@@ -262,13 +275,23 @@ Yukarıdaki resimdeki yapıyı aşağıdaki şekilde modüllerimizde tanımlayab
 ![](media/modules_services_impl.png)
 
 
+Bu sayede SPI ve SL yi tekrar compile etmeden SP yi değiştirebiliriz. Yani komut satırında java uygumamıza -p parametresi ile Ayrıca java bir modülde tek bir SPI ve SL olmasına izin verir. 
 
-Bu sayede SPI ve SL yi tekrar compile etmeden SP yi değiştirebiliriz. Ayrıca java bir modülde tek bir SPI ve SL olmasına izin verir. 
+- Service Loader, Service registy e ulaşıp orada implementasyonları aramamızı, kullanmamızı sağlar. Service Consumer dan kullanırız. Şu şekilde kullanırız.
 
-ServiceLoader.load(Tour.class) metodunu list dönüyor fakat stream olarak da elde edebiliriz. 
-   ServiceLoader.load(Tour.class)
+Iterable<MessageService> messageServices = ServiceLoader.load(MessageService.class);
+....
+messageServices.getMessage();    // overriding çalışıyor burada!
+
+Yukarıdaki örnekte MessageService sınıfının no-arg constructor'u olmasaydı, bu mekanizma ile çağıramazdık. Bu gibi durumlarda sınıfa Provider metodları ile ulaşırız.
+
+Ayrıca bu pahalı işlemi azaltmak için stream kullanarak "Lazy Instantiate" edebiliriz. Filter metodu implementasyonları azalttığı için sadece filtrelenen implementasyonlar çalışır. Eğer iterator kullansaydık, hepsi çalışacaktı.
+ 
+  ServiceLoader.load(Tour.class)
          .stream()
+         .filter(provider -> ...)
          .map(Provider::get)
+         .forEach(messageService -> ...)
 
 Özet;
 media/services.png)

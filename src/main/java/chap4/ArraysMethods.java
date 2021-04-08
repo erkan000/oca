@@ -24,6 +24,9 @@ public class ArraysMethods {
 		int compare = Arrays.compare(numbers, numbers2);
 		System.out.println("compare = " + compare);
 		
+		boolean ayniMi = Arrays.equals(numbers, numbers2);
+		System.out.println("Aynı mı = " + ayniMi);
+		
 	}
 
 }
