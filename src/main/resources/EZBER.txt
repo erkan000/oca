@@ -1,0 +1,129 @@
+Moduller
+
+keywords
+- exportS
+- exports to xx
+- requireS
+- requireS transitive
+- openS
+- open module myModule
+- uses
+- provides x with y
+
+- module-info boş(0 byte) olabilir! Derlenir.
+
+
+jmod params
+- create
+- extract
+- describe
+- list
+- hash
+
+-d
+-p  "--module-path"
+-m  "--module"
+
+jar için;
+c create jar
+v verbose output(Jar toolunun yaptığı işleri, jar içine konan dosyaları listele.)
+f jar file name(burada klasör belirtirsek klasör hali hazırda olmalıdır.)
+C (-C out .) out klasörü içindeki bütün dosyaları sıkıştır.
+
+java --list-modules komutu JDK içindeki modülleri listeler.
+java --show-module-resolution -p x -m b/c
+
+jar -f mods/zoo.animal.feeding.jar -d
+jar --file mods/zoo.animal.feeding.jar --describe-module
+
+jdeps -s mods/zoo.animal.feeding.jar
+jdeps -summary mods/zoo.animal.feeding.jar
+jdeps --jdk-internals myApp.jar   internal package tavsiyeleri
+jdeps ‐jdkinternals myApp.jar
+
+
+java.all yok, jdk.base yok!
+
+java.base
+java.naming
+java.compiler
+java.net.http 	
+java.sql
+java.datatransfer 	
+java.prefs 	
+java.sql.rowset
+java.desktop 	
+java.rmi 	
+java.transaction.xa
+java.instrument 	
+java.scripting 	
+java.xml
+java.logging 	
+java.se 	
+java.xml.crypto
+java.management
+java.management.rmi 	
+
+jdk.compiler
+jdk.net
+jdk.accessiblity
+jdk.jconsole
+jdk.jdeps
+jdk.naming.rmi
+jdk.charsets
+jdk.jdi
+jdk.jshell
+jdk.httpserver
+jdk.localdata
+jdk.xml.dom
+jdk.jartool
+jdk.management
+jdk.zipfs
+jdk.javadoc
+jdk.management.jfr 		
+
+
+JDBC;
+Komut satırında Driver jarı şu şekilde belirtilir;
+    java -cp "<path_to_derby>/derby.jar" TestConnect.java
+Connection string de zorunlu olanlar;
+      jdbc:dbVendor:vendorString
+ps.setInt(1,"w") de sadece int olarak parametre sırası belirtir! Diğer rs.getInt("w") deki string alan metod ile karıştırma.
+ps.executeQuery(sql) buradaki sql string’i normal statement olarak algılanır ve bind parametreleri yerine konmaz!
+All JDBC code throws a SQLException and must be handled!!!
+ResultSet içindeki kolonlar 1 den başlar!
+
+Excepitons;
+Unchecked Excepiton: Runtime ve Error
+Checked Exception: Diğerleri
+
+Unchecked örnekler;
+NullPointerException 
+ArithmeticException 	
+ArrayIndexOutOfBoundsException
+ClassCastException
+IllegalArgumentException	
+IllegalStateException
+NumberFormatException
+
+Checked Excepitons;
+FileNotFoundException	
+IOException
+ParseException
+SQLException
+
+FileNotFoundException extends IOException extends Exception
+NumberFormatException is a subclass of IllegalArgumentException
+
+Exception sınıfları toString() metodu sınıf ismini ve hata mesajını yazdırırlar! toString() == java.io.FileNotFoundException: Hata mesajı(varsa) 
+
+Return ederken catch bloğu finally bloğuna değişkeni/objeyi gönderir. Eğer gönderilen primitive ise finally bloğu bu değeri değiştiremez, nesne ise değiştirebilir. Son dönen finally olduğu için onun değeri kalır. 
+
+Catch de birden fazla exception yakalanması durumunda Bu hatalarda aralarında kalıtım olan sınıflar yazılamaz, derlenmez. 
+
+Base hata fırlatıyorsa, child hata fırlatmamayı seçebilir. Yani child sadece daraltabilir. Child base de ki exception'ı daha da genişletemez! yoksa kod derlenmez. 
+
+
+Localization;
+Language zorunlu, en
+Contry optional,  US			en_US
