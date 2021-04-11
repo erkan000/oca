@@ -90,7 +90,9 @@ Bu interface java8 den önce de vardı. Bu yüzden java.util package içindedir.
 - Body de local variable tanımlanabilir, sadece body içinde geçerlidir.
 - Parametrelerdeki ve Body deki parametre adı local context ile çakışmamalıdır, yoksa compile time error.
 - Lambda body si instance variable, method parameter, or local variable e ulaşabilir.
+- * effectively final, Java 9 ile gelen yeni bir özellik. Eğer bir local değişkenin değeri sanki final gibi bir defa atanıyor ve hiç değişmiyor ise bu değişken effectively final dır.
 - Method parameters and local variables are allowed to be referenced if they are effectively final. Lambda body de tanımlanan local ve metod parametreleri final olmalıdır. Yoksa kod derlenmez. Lambda expression dan sonra bile yeniden değer alsalar bile kod derlenmez. (Parametrelerde tek kural, lambda body ye dışardan geçtiğimiz parametreler final olmalı, body de yoksa istediğin şekilde değiştirebilirsin! Ayrıca lambda parametresi dışarıya gözükmez, birden fazla veya aynı parametreyi tanımlayabilirsin. Lambdayı sınıf olarak düşün!.)
+
 
 media/lambda_body_variables.png)
 

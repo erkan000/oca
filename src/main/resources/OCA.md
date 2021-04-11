@@ -834,7 +834,7 @@ early binding
 - Exception bir nesnedir! Hepsi "java.lang.Throwable" ın sub-class ıdır.
 - Kod çalışırken exception olursa uygun bir sınıfta exception nesnesi oluşturulur ve JVM e verilir. JVM OS un stackine bakar ve uygun yerde hatayı verir.
 - Checked Exceptions : RunTimeException'dan extend olmayan hatalardır.
-- Eğer bir metod tanımında "throws Excepiton" varsa onu çağıran kodda mutlaka excepiton handler olmalıdır. Yoksa kod derlenmez.
+- Eğer bir metod tanımında "throws Exception" varsa onu çağıran kodda mutlaka exception handler olmalıdır. Yoksa kod derlenmez.
 - Finally her zaman çalışır.
 - catch ve finally yerleri değişemez. Try'dan sonra ya catch ya finally bloğu olmalıdır. 
 - finally hata fırlatan metodu çağırırsa, kod derlenmez. 
@@ -843,7 +843,7 @@ early binding
 - Return ederken catch bloğu finally bloğuna değişkeni/objeyi gönderir. Eğer gönderilen primitive ise finally bloğu bu değeri değiştiremez, nesne ise değiştirebilir. Son dönen finally olduğu için onun değeri kalır. 
 - Birden fazla catch olduğu durumda, Exceptionlar birbiri ile IS-A ilişkisi var ise yazılma sırasının önemi vardır. Yoksa kod derlenmez. Hatırlatma için şu örnek kullanılabilir. Hata olarak tiger fırlatıldığını düşünelim. Catch de ise Animal ise yakala ve Tiger ise yakala olsun. İlk yazılan catch Base class, yani Animal olursa, fırlatılan tiger hep Animalda yakalanacak asla tiger catch inde yakalanmayak. İkinci catch hiçbir zaman çalışmayacaktır. Bu sebepten kod derlenmez. Base en sonra olmalıdır.
 - Catch ile birden fazla hata yakalanabilir. "catch(Exception1 | Exception2 | Exception3 e)"
-- 
+- Bu hatalarda aralarında kalıtım olan sınıflar yazılamaz, derlenmez.
 
 ![](media/throwable.png)
 ![](media/error.png)
@@ -858,11 +858,12 @@ early binding
 - Yakalanabilir ama gerek yoktur.
 
 ## Runtime Exceptions
+ArithmeticException		Thrown when code attempts to divide by zero
 IndexOutOfBoundsEx		invalid List position
 ArrayIndexOutofBoundsEx		invalid array position
 IllegalArgumentEx		invalid arguments
 IllegalStateEx			for send signals for status
-
+NumberFormatException 		Subclass of IllegalArgumentException thrown when an attempt is made to convert a string to a numeric type but the string doesn't have an appropriate format
 
 ## NullPointerException
 - Accessing members of a reference variable that is explicitly assigned a null value.
