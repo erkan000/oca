@@ -127,3 +127,8 @@ Base hata fırlatıyorsa, child hata fırlatmamayı seçebilir. Yani child sadec
 Localization;
 Language zorunlu, en
 Contry optional,  US			en_US
+
+DecimalFormat da 0, yoksa yerine sıfır koy, # ise yoksa yerine hiçbirşey koyma demek.
+
+
+

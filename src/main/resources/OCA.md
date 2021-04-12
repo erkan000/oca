@@ -262,6 +262,7 @@ int c +=2   --->  NOT
 - float ve double'a integerlar atanabilir, karşılaştırma yapılabilir.
 - float, double değerler consola yazarken sayının sonunda f veya d yazmaz! 0.0 şekilde yazar.
 - casting floating point numbers to integral values results in truncation, not rounding. Yani double 2.9 değerini int değere atarsan int değer 2 olur!
+- Local değişkenler eğer kullanılıyor ise mutlaka initalize edilmelilerdir. Bu tanımlama aşamasında veya bir ifin if ve else kısımlarında ayrı ayrı yapılabilir. Else in çalışmayan kısmı varsa yine olmaz.
 
 Operatör öncelikleri;
 ![](media/precedence.png)
@@ -494,6 +495,10 @@ arr = new int[][2];	Derlenmez!
 int arr[] = {0,1};
 int arr[] = new int[] {0,1};    yukardaki ile aynı
 int arr[][] = new int[][] { {0,1} , {3,4,5} };
+int[][] arr = {{1, 2, 3}, {}, {1, 2, 3, 4, 5}};
+String ejg2[][] = new String[][] { {}, {} };
+String ejg7[][] = new String[][]{{"A"}, {"B"}};
+String ejg4[][] = new String[][]{{null},new String[]{"a","b","c"},{new String()}};
 
 1. Array tipi interface olabilir.		O interface'i implemente eden herşey
 2. Array tipi abstract class olabilir.		O class'ı extend eden herşey
@@ -618,6 +623,7 @@ Case değerleri;
       case int:    NOT
 3. case null olamaz, kod derlenmez.
 4. break herhangi bir case de kullanılabilirken, continue kullanılamaz. 
+5. Aynı literal değerler compiler hatasına sebebiyet verir.
 
 ## for
 for(initalizion; condition; update)
