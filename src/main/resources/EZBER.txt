@@ -131,4 +131,26 @@ Contry optional,  US			en_US
 DecimalFormat da 0, yoksa yerine sıfır koy, # ise yoksa yerine hiçbirşey koyma demek.
 
 
+# SECURITY
 
+4 serialization metodu;
+
+private void writeObject(ObjectOutputStream s) throws Exception {
+      ObjectOutputStream.PutField fields = s.putFields();
+      fields.put("name", name);
+      fields.put("ssn", encrypt(ssn));
+      s.writeFields();
+   }
+   private void readObject(ObjectInputStream s) throws Exception {
+      ObjectInputStream.GetField fields = s.readFields();
+      this.name = (String)fields.get("name", null);
+      this.ssn = decrypt((String)fields.get("ssn", null));
+   }   
+   
+public synchronized Object readResolve() throws ObjectStreamException {
+public Object writeReplace() throws ObjectStreamException {
+
+
+Serialize olacak alanları belirlemek;
+private static final ObjectStreamField[] serialPersistentFields = { new ObjectStreamField("name", String.class) };
+Bu alan private static final olmalıdır.
