@@ -15,7 +15,7 @@ public @interface Exercise {}
 @Exercise
 @Exercise()
 
-Kullanırken ilk gördüğü annotation olmayan type a uygulanırlar. Aynı satırda veya alt alta birden fazla annotation olması farketmez, hepsi ilk görülen type a uygulanır. Annotation ismi case-sensitive dir. Pratikte ilk harf büyük olur. Tanımladığımız bu Exercise annotation ına  marker interface denir. Element içermeyen annotation lara denir. 
+Kullanırken ilk gördüğü annotation olmayan type a uygulanırlar. Aynı satırda veya alt alta birden fazla annotation olması farketmez, hepsi ilk görülen type a uygulanır. Annotation ismi case-sensitive dir. Pratikte ilk harf büyük olur. Tanımladığımız bu Exercise annotation ına  marker interface denir. Element içermeyen annotation lara denir. (A marker annotation does not contain any elements but may contain constant variables.)
 
 ## Adding element
 public @interface Exercise {
@@ -34,9 +34,9 @@ Burada default değeri null olmayan sabit bir değer olmalıdır. Şu örnekler 
 - String name() default new String("");
 - String name() default null;  
 
-Elementin type ı ise primitive type, a String, a Class, an enum, another annotation, or an array of any of these types olabilir. Wrapper classes, 1 boyuttan fazla diziler, normal sınıflar element tipi olamazlar. 
+*** Elementin type ı ise primitive type, a String, a Class, an enum, another annotation, or an array of any of these types olabilir. Wrapper classes, 1 boyuttan fazla diziler, normal sınıflar element tipi olamazlar. 
 
-Annotation element leri dolaylı olarak abstract ve public dir. Element önüne bunları yazabilirsin ama diğer access modifier ları yazarsan derlenmez. Final yazarsan da derlenmezi abstract kuralları gibi. 
+*** Annotation element leri dolaylı olarak abstract ve public dir. Element önüne bunları yazabilirsin ama diğer access modifier ları yazarsan derlenmez. Final yazarsan da derlenmez, abstract kuralları gibi. 
 
 Sabit de tanımlanabilir. Aynı interface sabitleri gibi public, static, ve final olurlar. Fakat kullanırken parametre olarak geçilmemelidir, yoksa derlenemez.
 
@@ -49,7 +49,7 @@ Annotations şuralara uygulanabilir;
 - Variables ( static, instance, local)
 - Methods and constructors
 - Method, constructor, and lambda parameters
-- Cast expressions
+- Cast expressions  (@MyAnn (myClass))
 - Other annotations
 
 ![](media/annotation_declare.png)
@@ -95,7 +95,7 @@ Tablodaki TYPE_USE bütün java type larını temsil eder, fakat bazı özel dur
 
 ## Retention
 Annotation lar compiler tarafından ignore edilir ve derleme aşamasında .class içinde yeralmaz. Fakat retention RUTIME yapılırsa yer alırlar.
-@Retention(RetentionPolicy.CLASS) şeklinde tanımlanırlar.
+@Retention(RetentionPolicy.CLASS) şeklinde tanımlanırlar. Class değerinde annotation değerleri program çalışırken elde edilemez.
 
 - SOURCE 	Used only in the source file, discarded by the compiler
 - CLASS 	Stored in the .class file but not available at runtime (default compiler behavior)
