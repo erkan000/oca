@@ -13,7 +13,7 @@ public class StreamCreate {
 		Stream<String> stringStream2 = Stream.of("a","b");
 		
 		int[] dizi = new int[]{1,2,3};
-		Stream<int[]> arrayStream = Stream.of(dizi);
+		Stream<int[]> arrayStream = Stream.of(dizi,dizi);
 		arrayStream.forEach((a) -> System.out.println("array listesi:" + a));
 		
 		Stream<String> stringStream = Stream.generate(() -> "Erkan"); // generate ve iterate sonsuz stream

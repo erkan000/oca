@@ -8,6 +8,8 @@ public class LambdaBodyParamethers {
 	
 	public void caw(String name) {
 		
+		color = "OK";
+		
 //		Burayı açınca kod derlenmez!
 //		name = "Caty";		
 		

@@ -46,7 +46,7 @@ public class TerminalOperations {
 		Stream<String> chars2 = Stream.of("e","r k","n7");
 		Integer identity = 0;
 		BiFunction<Integer, String, Integer> accumulator = (i, s) -> i+s.length();
-		BinaryOperator<Integer> combiner = (aa, bb) -> aa+bb;
+		BinaryOperator<Integer> combiner = (aa, bb) -> 7+aa+bb;
 		Integer num = chars2.reduce(identity, accumulator, combiner);   // farklı tipteki değişkenleri birleştirmek için
 		System.out.println("Karakter sayısı: " + num);
 				

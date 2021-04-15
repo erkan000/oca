@@ -54,7 +54,7 @@ public class IntermediateOperations {
 		List<String> list4 = Arrays.asList("Test 2", "Test 22");
 		List<List<String>> listList = Arrays.asList(list3, list4);
 		Function<List<String>,Stream<String>> mapper2 = Collection::stream;
-		listList.stream().flatMap(mapper2).forEach(System.out::println);
+		listList.stream().flatMap(mapper2).forEach(s -> System.out.println((s instanceof String) + " " + s));
 		
 		System.out.println("--------- flat map another");
 		

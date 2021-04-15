@@ -14,12 +14,13 @@ public class FlatMapExample {
 
         Set<String> collect =
                 list.stream()
-                        .map(x -> x.getBook())                              //  Stream<Set<String>>
-                        .flatMap(x -> x.stream())                           //  Stream<String>
+                        .map(x -> x.getBook()).peek(System.out::println)                              //  Stream<Set<String>>
+                        .flatMap(x -> x.stream()).peek(System.out::println)                           //  Stream<String>
                         .filter(x -> x.contains("Java"))   //  filter python book
                         .collect(Collectors.toSet());                       //  remove duplicated
 
-        collect.forEach(System.out::println);        
+        System.out.println("---");
+        collect.forEach(s -> System.out.println("Sonuc: " + s));        
 
 	}
 	
