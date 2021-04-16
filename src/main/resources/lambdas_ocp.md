@@ -395,6 +395,7 @@ Primitive stream oluşturma, java8.stream.PrimitiveStreams.java
 
 # Create with mapping
 Stream lerin map metodları streamleri birbirine çevirmeye yarar. Mesela bir string stream'i int stream'e her elemanı string in uzunluğu olan stream'e çevirebilirsin. Tablodaki gibi metodlar ve çevrimler mevcuttur.
+
 ![](media/primitive_stream_mapping.png)
 
 ![](media/primitive_stream_mapping_params.png)
@@ -410,6 +411,7 @@ Primitive streamler için Optional sınıfının primitive leri bulunur. Normal 
 
 Primitive stream lerde, stream içindeki sayıların bazı istatistiki verilerini hazır sağlayan metod bulunur. 
    IntSummaryStatistics stats = primitiveStream.summaryStatistics();
+
 - Smallest number (minimum): getMin()
 - Largest number (maximum): getMax()
 - Average: getAverage()
@@ -446,9 +448,9 @@ Sonuçları gruplamak için aşağıdaki tablodaki metodlar hazır tanımlanmı�
 - Collectors.toCollection(ArrayList::new) Stream'i bir Collection nesnesine çevirmeye yarar. Supplier alır.
 - Collectors.toList() List interface'ine çevirmek yeterli ise bu kullanılabilir.
 - Collectors.toSet()
-- Collectors.toMap(s -> s, String::length) ilk Function, key'in nasıl oluşacağı, ikinci Function ise value'nun nasıl oluşacağı
+- Collectors.toMap(s -> s, String::length) ilk Function, key'in nasıl oluşacağı, ikinci Function ise value'nun nasıl oluşacağı. Burada aynı key varsa IllegalStateException fırlatılır. Aynıları birleştirmek gerekir. Aşağıdaki gibi birleşir.
 - Collectors.toMap(s -> s, String::length, collector) buradaki fark ise aynı elemanların nasıl birleştirileceğini 3. parametre belirler
-- toMap metodları dönüşü HashMap olabilir, kesin değildir. Kesin olarak bir tip belirtmek istiyorsak, 4. parametre olarak "TreeMap::new" geçebiliriz.
+- toMap metodları dönüşü HashMap olabilir, kesin değildir. Kesin olarak bir tip belirtmek istiyorsak, 4. parametre olarak "TreeMap::new" geçebiliriz. Collectors.toMap(s -> s, String::length, collector, suppiler)
 
 - Collectors.groupingBy stream içindeki elemanları Function a göre gruplar ve map olarak döner. Değerler ise gruplanmış List lerdir. Null dönmez, çünkü null a izin vermez. Burada oluşturulan map ve list in tiplerini set edebiliriz;
    Collectors.groupingBy(

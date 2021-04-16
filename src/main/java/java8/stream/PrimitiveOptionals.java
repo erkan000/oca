@@ -7,12 +7,13 @@ import java.util.OptionalLong;
 import java.util.function.BooleanSupplier;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class PrimitiveOptionals {
 
 	public static void main(String[] args) {
 
-		DoubleStream doubles = DoubleStream.of(12.5, 6.6);
+		DoubleStream doubles = DoubleStream.of(12.5, 6.6, 2f);
 		OptionalDouble minimum = doubles.min();
 		System.out.println(minimum.getAsDouble());
 
@@ -35,6 +36,11 @@ public class PrimitiveOptionals {
 		optional.map(n -> "" + n)          
 			.filter(s -> s.length() == 3)
 			.ifPresent(System.out::println);
+		
+		IntStream priStr = IntStream.of(4,1,9);
+		Stream<Integer> intStr = priStr.boxed();
+		intStr.forEach(s -> System.out.println(s.doubleValue()));
+		
 	}
 
 }

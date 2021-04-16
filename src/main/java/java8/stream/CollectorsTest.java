@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -29,7 +30,7 @@ public class CollectorsTest {
 		
 		Map<Integer, String> map2 = getStream().collect(Collectors.toMap(
 				String::length,
-				k -> k, 
+				k -> k,
 				(s1, s2) -> s1 + "," + s2));
 		System.out.println("Collectors.toMap joined : " + map2);
 		System.out.println(map2.getClass());
@@ -63,7 +64,7 @@ public class CollectorsTest {
 								s -> s.charAt(0), 
 								Collectors.minBy((a, b) -> a -b))));
 		System.out.println("Collectors.mapping : " + map7);
-				
+		
 	}
 
 	private static Stream<String> getStream() {
