@@ -19,3 +19,9 @@ Java 10 ile var keyword'ü geldi. Tip belirtmeden değişken yazmamızı sağlar
 
 var squirrel = new Object();   // geçerlidir. Nesne atanabilir.
 var monkeys = new ArrayList<>();  // List içindeki nesnelerin tipleri Object olur. 
+
+var list = new ArrayList<Integer>();	// ArrayList<Integer> oluşturur.
+var list = new ArrayList<>();			// ArrayList<Object>  oluşturur.
+
+ArrayList eklenme sırasını korur,
+Set aynı elemanın eklenmesine izin vermez, add metodu false döner sadece.

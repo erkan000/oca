@@ -1,6 +1,9 @@
-Arrays.asList(varargs)  Returns fixed size list backed by an array
+Arrays.asList(varargs)  Returns fixed size list backed by an array, sadece bunun elemanıları replace edilebilir.
 List.of(varargs) 	Returns immutable list
 List.copyOf(collection)  Returns immutable list with copy of original collection's values
+
+Set.of(varargs);
+Set.copyOf(collection);
 
 Map.of("key1", "value1", "key2", "value2");
 Map.ofEntries(
