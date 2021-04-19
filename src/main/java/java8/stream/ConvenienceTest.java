@@ -20,6 +20,11 @@ public class ConvenienceTest {
 		
 		Function<Integer, Integer> combined2 = before.andThen(after);
 		System.out.println(combined2.apply(3));
+		
+		Function<Integer, Integer> s = a -> a + 4;
+	    Function<Integer, Integer> t = a -> a * 3;
+	    Function<Integer, Integer> c = s.compose(t);
+	    System.out.println(c.apply(1));
 	}
 
 }
