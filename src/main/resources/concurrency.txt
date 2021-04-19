@@ -206,5 +206,5 @@ Parallel streamlerde thread sayısı, cpu sayısı ile orantılıdır. parallel 
 - order tabanlı stream işlemleri parallel streamlerde daha yavaş çalışır. Önlemek için .stream().unordered().parallel() ile listeyi sırasıza çevirebiliriz.
 - Reduce işlemi de identity bütün threadlerde uygulanır.
 - Reduce ve collect de accumulator ve combiner sonuçları herhangi bir sırada işleyecek şekilde yazılmalıdır.
-- 
+- forEachOrdered metodu ile listenin eklenmes sırasına göre elememanları yazdırabiliriz.
 
