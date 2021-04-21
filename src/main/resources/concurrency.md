@@ -5,7 +5,7 @@ Runnable İnterface;
      void run();
   }
 
-LAmbda ile tanımlanırken hiçbirşey döndürmemeli, yoksa derlenmez!
+Lambda ile tanımlanırken hiçbirşey döndürmemeli, yoksa derlenmez!
 
 Runnable sloth = () -> System.out.println("Hello World");
 Runnable snake = () -> {int i=10; i++;};
@@ -22,13 +22,13 @@ Runnable emu = () -> {return new Object();};  // DOES NOT COMPILE
   
 - public class ReadInventoryThread extends Thread {
   (new ReadInventoryThread()).start();
-  
-The Concurrency API includes the ExecutorService interface, which defines services that create and manage threads for you. Concurrency API includes the Executors factory class that can be used to create instances of the ExecutorService object. Asenkron thread şöyle oluşturulur. shurdown çağırmassan uygulaman hiçbir zaman kapanmaz.
+
+The Concurrency API includes the ExecutorService interface, which defines services that create and manage threads for you. Concurrency API includes the Executors factory class that can be used to create instances of the ExecutorService object. Asenkron thread şöyle oluşturulur. shutdown çağırmassan uygulaman hiçbir zaman kapanmaz.
 
    ExecutorService service = Executors.newSingleThreadExecutor();
-   service.execute(runnable);  
+   service.execute(runnable);
    service.shutdown();
-   
+
 ![](media/executor_service_lifecycle.png)
 
 shutdown         metodu hali hazırsaki işlerin bitmesini bekler, yeni iş almaz.
@@ -44,7 +44,8 @@ Future arayüzü metodları şunlardır;
 Callable interface;
 Runnable yerine kullanabiliriz. Runnable ın aksine değer dönebilir ve hata fırlatabilir. ExecutorService in submit metoduna geçilebilir. Runnable her zaman null dönerken, callable T dönebilir.
 
-   @FunctionalInterface public interface Callable<V> {
+@FunctionalInterface
+public interface Callable<V> {
       V call() throws Exception;
    }
 
@@ -54,13 +55,13 @@ if(service != null)
 }
 if(service != null) {
    service.awaitTermination(1, TimeUnit.MINUTES);
- 
+
    if(service.isTerminated())
      System.out.println("Finished!");
    else
       System.out.println("At least one task is still running");
 }
-   
+
 invokeAll() and invokeAny();
 Both of these methods execute synchronously and take a Collection of tasks. 
 - The invokeAll() method executes all tasks in a provided collection and returns a List of ordered Future instances, with one Future instance corresponding to each submitted task, in the order they were in the original collection.
@@ -98,6 +99,7 @@ Writing Thread-Safe Code;
 
 Atomic Classes;
 Bir değişkeni atomik olarak tanımlayarak race condition'ı engelleyebiliriz. Burada değişkenle işlem yapılırken otomatik olarak diğer threadler değişkene okuyup, yazamazlar, beklemek zorunda kalırlar. java.util.concurrent.atomic package altında bulunan;
+
 - AtomicBoolean 
 - AtomicInteger 
 - AtomicLong 
