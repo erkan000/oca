@@ -837,19 +837,45 @@ early binding
 
 # Chapter-7
 - Stack Trace: JVM unhandled excepition alınca hangi metodları sırayla çağırdığını gösteren tracedir.
+
 - Exception bir nesnedir! Hepsi "java.lang.Throwable" ın sub-class ıdır.
+
 - Kod çalışırken exception olursa uygun bir sınıfta exception nesnesi oluşturulur ve JVM e verilir. JVM OS un stackine bakar ve uygun yerde hatayı verir.
+
 - Checked Exceptions : RunTimeException'dan extend olmayan hatalardır.
+
 - Eğer bir metod tanımında "throws Exception" varsa onu çağıran kodda mutlaka exception handler olmalıdır. Yoksa kod derlenmez.
+
 - Finally her zaman çalışır.
+
 - catch ve finally yerleri değişemez. Try'dan sonra ya catch ya finally bloğu olmalıdır. 
+
 - finally hata fırlatan metodu çağırırsa, kod derlenmez. 
+
 - Eğer try veya catch bloğun içinde "return" var ise, return bittikten sonra finally bloğu çalışır, ondan sonra devam eder.
+
 - Eğer hem catch hem finally bloğun içinde "return" var ise, finally bloğundaki değer alınır.
+
 - Return ederken catch bloğu finally bloğuna değişkeni/objeyi gönderir. Eğer gönderilen primitive ise finally bloğu bu değeri değiştiremez, nesne ise değiştirebilir. Son dönen finally olduğu için onun değeri kalır. 
+
 - Birden fazla catch olduğu durumda, Exceptionlar birbiri ile IS-A ilişkisi var ise yazılma sırasının önemi vardır. Yoksa kod derlenmez. Hatırlatma için şu örnek kullanılabilir. Hata olarak tiger fırlatıldığını düşünelim. Catch de ise Animal ise yakala ve Tiger ise yakala olsun. İlk yazılan catch Base class, yani Animal olursa, fırlatılan tiger hep Animalda yakalanacak asla tiger catch inde yakalanmayak. İkinci catch hiçbir zaman çalışmayacaktır. Bu sebepten kod derlenmez. Base en sonra olmalıdır.
+
 - Catch ile birden fazla hata yakalanabilir. "catch(Exception1 | Exception2 | Exception3 e)"
+
 - Bu hatalarda aralarında kalıtım olan sınıflar yazılamaz, derlenmez.
+
+- FileNotFoundException extends IOException extends Exception
+  NumberFormatException is a subclass of IllegalArgumentException
+
+  Exception sınıfları toString() metodu sınıf ismini ve hata mesajını yazdırırlar! toString() == java.io.FileNotFoundException: Hata mesajı(varsa) 
+
+  Return ederken catch bloğu finally bloğuna değişkeni/objeyi gönderir. Eğer gönderilen primitive ise finally bloğu bu değeri değiştiremez, nesne ise değiştirebilir. Son dönen finally olduğu için onun değeri kalır. 
+
+  Catch de birden fazla exception yakalanması durumunda Bu hatalarda aralarında kalıtım olan sınıflar yazılamaz, derlenmez. 
+
+  Base hata fırlatıyorsa, child hata fırlatmamayı seçebilir. Yani child sadece daraltabilir. Child base de ki exception'ı daha da genişletemez! yoksa kod derlenmez. 
+
+  
 
 ![](media/throwable.png)
 ![](media/error.png)

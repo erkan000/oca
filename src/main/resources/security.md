@@ -49,7 +49,7 @@ By default, the clone() method makes a shallow copy of the data, which means onl
 - Uygulamamızda kullandığımız int değerlerde size'ı geçilebilir. Integer overflow yaşanınca değişken negatif değer olur. Böylece programımız yanlış çalışır ve istenmeyen sonuçlar üretir.
 - HashMap içinde key ile arama hızlıdır, veriler hashlidir. Eğer hashcode değeri sabit dönen bir sınıf yazarsak, 1 milyon kayıtta arama hızımız çok yavaşlar. Böylece uygulama yavaşlatılabilir.
 
-## permiison file sample
+## permission file sample
 
 grant {
   permission java.io.FilePermission

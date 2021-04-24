@@ -6,7 +6,7 @@ Java 7 Date sınıfı mutable idi. Bu sınıfta değiştirilmesin diye setter ı
 - LocalTime : Günün belirli bir zamanını gösterir. 
 - ZoneId : Zamanlara zone bilgisi eklememize yarar. Java time zone lar için IANA veritabanını kullanır.(https://www.iana.org/time-zones) 
 
-date_time_types.png)
+![](media/date_time_types.png)
 
 Yukardaki sınıfların hepsinde oluşturmak için static "now" metodu bulunur. LocalDate.now() gibi. Ayrıca hepsinde static "of" metodu bulunur. Örnekleri date.time.Create sınıfında.
 - LocalTime of ile oluştururken nano saniye mertebesinde ayrıntılı overload edilmiş metodları bulunur. Aylar 1 den başlar, saatler 24 saat esasına göre yazılır.
@@ -14,7 +14,7 @@ Yukardaki sınıfların hepsinde oluşturmak için static "now" metodu bulunur. 
 - getYear, getHour gibi metodları bulunur. Ayrıca format metodu ile hepsini formatlayabiliriz. Bu metod format almak için DateTimeFormatter sınıfındaki tanımlı sabitleri kullanır. Bu sınıfa "ofPattern" metodu ile custom formatter verebiliriz. (date.time.Format.java) 
 - Burada harfler bir zaman birimini temsil eder, aşağıdaki gibi. Harflerin sayısı ise değiştirir. Ay için kulanılan büyük M harfi, bir defa yazılırsa aylar başına sıfır almadan, iki defa yazılırsa tek haneliler başına sıfır alarak, üç defa yazılısa ayın kısaltılması 3 harfli ve dört defa yazılırsa ayın adı uzun şekilde yazılmasını temsil eder.
 
-date_time_symbols.png)
+![](media/date_time_symbols.png)
 
 - Burada dikkat edilmesi gereken, herhangi bir formatlamada, olmayan veriler ile formatlama geçilir ise runtime da hata alınır. Mesela LocalDate nesnesini hh,mm,ss ile formatlayamayız. Veya LocalTime nesnesini y,M,d ile.
 - Hem date time nesnelerinde format metodu bulunur hemde DateTimeFormatter sınıfında. İkiside aynıdır.  (date.time.Format.java) 
